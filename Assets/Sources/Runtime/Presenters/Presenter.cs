@@ -9,7 +9,7 @@ namespace Sources.Runtime.Presenters
 
         public T Model => _model;
 
-        public virtual void Init(T model, params object[] another)
+        public virtual void Init(T model)
         {
             _model = model;
             enabled = true;
