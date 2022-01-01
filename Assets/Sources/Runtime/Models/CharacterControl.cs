@@ -8,14 +8,14 @@ namespace Sources.Runtime.Models
     {
         public Action<object> Commanded;
         public Action<CharacterControl> SelectionCanceled;
-        private Camera _camera;
+        private readonly Camera _camera;
 
         public CharacterControl()
         {
             _camera = Camera.main;
         }
         
-        public void SelectCharacter() // Select in specified class 
+        public void SelectCharacter()
         {
             Ray ray = _camera.ScreenPointToRay(UnityEngine.Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit))
@@ -27,6 +27,10 @@ namespace Sources.Runtime.Models
                         commandableCharacter.Select(this);
                     }
                 }
+                else
+                {
+                    CancelSelection();
+                }
             }
         }
 
@@ -37,6 +41,7 @@ namespace Sources.Runtime.Models
             {
                 if (hit.collider.TryGetComponent(out CharacterPresenter presenter))
                 {
+                    Debug.Log("Character");
                     Commanded?.Invoke(presenter.Model);
                 }
                 else

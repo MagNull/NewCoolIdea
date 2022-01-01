@@ -14,7 +14,7 @@ namespace Sources.Runtime.Composite_Roots
         {
             _presenter = GetComponent<PlayerPresenter>();
             _presenter.Init(new Player(transform.position, transform.rotation));
-            _inputRouter = new InputRouter(_presenter.Model, new CharacterControl());
+            _inputRouter = new InputRouter(new CharacterControl());
         }
 
         private void OnEnable()

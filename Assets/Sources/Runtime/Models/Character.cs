@@ -14,7 +14,7 @@ namespace Sources.Runtime.Models
             NavMeshAgent = navMeshAgent;
         }
         
-        public void SetTarget(object target)
+        protected void SetTarget(object target)
         {
             _targetCharacter = null;
             if (target is Vector3 targetPos)
@@ -28,8 +28,8 @@ namespace Sources.Runtime.Models
             if (_targetCharacter is not null)
             {
                 NavMeshAgent.SetDestination(_targetCharacter.Position);
+                MoveTo(NavMeshAgent.nextPosition);
             }
-            MoveTo(NavMeshAgent.nextPosition);
         }
     }
 }

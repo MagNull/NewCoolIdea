@@ -4,10 +4,10 @@ namespace Sources.Runtime.Input
 {
     public class InputRouter
     {
-        private PlayerInput _input;
-        private CharacterControl _characterControl;
+        private readonly PlayerInput _input;
+        private readonly CharacterControl _characterControl;
         
-        public InputRouter(Player player, CharacterControl characterControl)
+        public InputRouter(CharacterControl characterControl)
         {
             _characterControl = characterControl;
             _input = new PlayerInput();

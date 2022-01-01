@@ -23,7 +23,7 @@ namespace Sources.Runtime.Models
             Selected?.Invoke();
         }
 
-        public void Deselect(CharacterControl commander)
+        private void Deselect(CharacterControl commander)
         {
             commander.Commanded -= SetTarget;
             commander.SelectionCanceled -= Deselect;
