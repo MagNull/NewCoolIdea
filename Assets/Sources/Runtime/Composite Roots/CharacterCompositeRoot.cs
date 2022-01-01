@@ -12,6 +12,8 @@ namespace Sources.Runtime.Composite_Roots
         typeof(Outline))]
     public class CharacterCompositeRoot : MonoBehaviour
     {
+        [SerializeField] private bool _isEnemy = false;
+        [SerializeField] private CharacterBank _bank;
         private NavMeshAgent _navMeshAgent;
         private CharacterPresenter _presenter;
         private Outline _outline;
@@ -22,7 +24,15 @@ namespace Sources.Runtime.Composite_Roots
             _navMeshAgent = GetComponent<NavMeshAgent>();
             _presenter = GetComponent<CharacterPresenter>();
             _outline = GetComponent<Outline>();
-            _character = new CommandableCharacter(transform.position, transform.rotation, _navMeshAgent, _outline);
+            _character = _isEnemy ? 
+                new Enemy(transform.position, transform.rotation, _navMeshAgent, new Health(10), _bank) : 
+                new CommandableCharacter(transform.position, transform.rotation, _navMeshAgent, new Health(10), _outline);
+            
+            if (_character is Enemy)
+                _bank.Enemies.Add(_character);
+            else
+                _bank.Allies.Add(_character);
+
             _presenter.Init(_character);
         }
 

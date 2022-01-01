@@ -10,7 +10,7 @@ namespace Sources.Runtime.Models
         public Action Deselected;
 
         public CommandableCharacter(Vector3 position, Quaternion rotation, 
-            NavMeshAgent navMeshAgent, Outline outline) : base(position, rotation, navMeshAgent)
+            NavMeshAgent navMeshAgent, Health health, Outline outline) : base(position, rotation, navMeshAgent, health)
         {
             Selected += () => outline.enabled = true;
             Deselected += () => outline.enabled = false;

@@ -1,18 +1,25 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.AI;
 
 namespace Sources.Runtime.Models
 {
+    [Serializable]
     public class Character : Transformable, IUpdatable
     {
         public NavMeshAgent NavMeshAgent;
 
         private Character _targetCharacter;
+        private Health _health;
 
-        public Character(Vector3 position, Quaternion rotation, NavMeshAgent navMeshAgent) : base(position, rotation)
+        public Character(Vector3 position, Quaternion rotation, 
+            NavMeshAgent navMeshAgent, Health health) : base(position, rotation)
         {
             NavMeshAgent = navMeshAgent;
+            _health = health;
         }
+
+        public void TakeDamage(int damage) => _health.TakeDamage(damage);
         
         protected void SetTarget(object target)
         {
@@ -23,13 +30,13 @@ namespace Sources.Runtime.Models
                 _targetCharacter = targetCharacter;
         }
         
-        public void Update()
+        public virtual void Update()
         {
             if (_targetCharacter is not null)
             {
                 NavMeshAgent.SetDestination(_targetCharacter.Position);
-                MoveTo(NavMeshAgent.nextPosition);
             }
+            MoveTo(NavMeshAgent.nextPosition);
         }
     }
 }

@@ -41,7 +41,6 @@ namespace Sources.Runtime.Models
             {
                 if (hit.collider.TryGetComponent(out CharacterPresenter presenter))
                 {
-                    Debug.Log("Character");
                     Commanded?.Invoke(presenter.Model);
                 }
                 else
