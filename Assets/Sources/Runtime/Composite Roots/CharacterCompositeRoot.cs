@@ -1,5 +1,6 @@
 ﻿using System;
 using Sources.Runtime.Models;
+using Sources.Runtime.Models.Characters;
 using Sources.Runtime.Presenters;
 using UnityEngine;
 using UnityEngine.AI;
@@ -38,7 +39,7 @@ namespace Sources.Runtime.Composite_Roots
 
         private void Update()
         {
-            _character.Update();
+            _character.Update(Time.deltaTime);
         }
     }
 }

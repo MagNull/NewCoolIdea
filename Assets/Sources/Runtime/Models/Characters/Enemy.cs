@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-namespace Sources.Runtime.Models
+namespace Sources.Runtime.Models.Characters
 {
     public class Enemy : AutoTargetCharacter
     {

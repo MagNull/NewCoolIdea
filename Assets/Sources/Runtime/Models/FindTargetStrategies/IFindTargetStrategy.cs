@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
+using Sources.Runtime.Models.Characters;
 
-namespace Sources.Runtime.Models
+namespace Sources.Runtime.Models.FindTargetStrategies
 {
     public interface IFindTargetStrategy
     {

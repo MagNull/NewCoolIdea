@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Sources.Runtime.Models
+namespace Sources.Runtime.Models.Characters
 {
     public class Player : Transformable
     {

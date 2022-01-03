@@ -1,4 +1,5 @@
 ﻿using System;
+using Sources.Runtime.Models.Characters;
 using Sources.Runtime.Presenters;
 using UnityEngine;
 
@@ -20,16 +21,13 @@ namespace Sources.Runtime.Models
             Ray ray = _camera.ScreenPointToRay(UnityEngine.Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
+                CancelSelection();
                 if (hit.collider.TryGetComponent(out CharacterPresenter presenter))
                 {
                     if (presenter.Model is CommandableCharacter commandableCharacter)
                     {
                         commandableCharacter.Select(this);
                     }
-                }
-                else
-                {
-                    CancelSelection();
                 }
             }
         }

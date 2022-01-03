@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using Sources.Runtime.Models.FindTargetStrategies;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace Sources.Runtime.Models
+namespace Sources.Runtime.Models.Characters
 {
     public abstract class AutoTargetCharacter : Character
     {
@@ -15,10 +16,10 @@ namespace Sources.Runtime.Models
             _findTargetStrategy = new FindNearestStrategy();
         }
 
-        public override void Update()
+        public override void Update(float deltaTime)
         {
             SetTarget(_findTargetStrategy.GetTarget(_targets, this));
-            base.Update();
+            base.Update(deltaTime);
         }
     }
 }

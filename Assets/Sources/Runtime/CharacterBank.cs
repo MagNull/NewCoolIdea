@@ -1,9 +1,12 @@
 using System.Collections.Generic;
-using Sources.Runtime.Models;
+using Sources.Runtime.Models.Characters;
 using UnityEngine;
 
-public class CharacterBank : MonoBehaviour
+namespace Sources.Runtime
 {
-    public List<Character> Allies = new();
-    public List<Character> Enemies = new();
+    public class CharacterBank : MonoBehaviour
+    {
+        public List<Character> Allies = new();
+        public List<Character> Enemies = new();
+    }
 }

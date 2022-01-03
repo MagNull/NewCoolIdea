@@ -1,5 +1,6 @@
 using Sources.Runtime.Input;
 using Sources.Runtime.Models;
+using Sources.Runtime.Models.Characters;
 using Sources.Runtime.Presenters;
 using UnityEngine;
 
