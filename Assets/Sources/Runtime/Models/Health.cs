@@ -1,11 +1,13 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Sources.Runtime.Models
 {
+    [Serializable]
     public class Health
     {
         public Action Died;
-        private int _value = 10;
+        [SerializeField] private int _value = 10;
 
         public Health(int value)
         {

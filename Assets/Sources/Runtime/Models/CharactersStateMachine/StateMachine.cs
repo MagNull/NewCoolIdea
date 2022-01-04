@@ -25,6 +25,7 @@ namespace Sources.Runtime.Models.CharactersStateMachine
 
         public void Update(float deltaTime)
         {
+            _currentState.Update(deltaTime);
             _currentState.LogicUpdate();
         }
     }

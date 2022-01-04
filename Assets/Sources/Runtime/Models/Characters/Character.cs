@@ -8,10 +8,10 @@ namespace Sources.Runtime.Models.Characters
     [Serializable]
     public class Character : Transformable, IUpdatable
     {
+        [SerializeField] private Health _health;
         private float _attackDistance = 3;
         private NavMeshAgent _navMeshAgent;
         private Character _targetCharacter;
-        private Health _health;
         private StateMachine _stateMachine;
 
 
@@ -51,10 +51,6 @@ namespace Sources.Runtime.Models.Characters
         
         public virtual void Update(float deltaTime)
         {
-            if (_targetCharacter is not null)
-            {
-                _navMeshAgent.SetDestination(_targetCharacter.Position);
-            }
             MoveTo(_navMeshAgent.nextPosition);
             _stateMachine.Update(deltaTime);
         }

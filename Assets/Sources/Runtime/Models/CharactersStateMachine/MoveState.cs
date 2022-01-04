@@ -13,13 +13,13 @@ namespace Sources.Runtime.Models.CharactersStateMachine
 
         public override void Enter()
         {
-            Debug.Log( _navMeshAgent.gameObject.name+ " enter Move");
+            //Debug.Log( _navMeshAgent.gameObject.name+ " enter Move");
             _navMeshAgent.isStopped = false;
         }
 
         public override void Exit()
         {
-            Debug.Log( _navMeshAgent.gameObject.name+ " exit Move");
+           // Debug.Log( _navMeshAgent.gameObject.name+ " exit Move");
             _navMeshAgent.isStopped = true;
         }
 
@@ -34,6 +34,15 @@ namespace Sources.Runtime.Models.CharactersStateMachine
             }
             else if(_navMeshAgent.remainingDistance <= 0.1f)
                 _stateMachine.ChangeState<IdleState>();
+        }
+
+        public override void Update(float deltaTime)
+        {
+            var targetCharacter = _getTarget.Invoke();
+            if (targetCharacter is not null)
+            {
+                _navMeshAgent.SetDestination(targetCharacter.Position);
+            }
         }
     }
 }

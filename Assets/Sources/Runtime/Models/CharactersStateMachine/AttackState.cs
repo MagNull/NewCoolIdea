@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Timers;
 using Sources.Runtime.Models.Characters;
 using UnityEngine;
 using UnityEngine.AI;
@@ -7,18 +8,24 @@ namespace Sources.Runtime.Models.CharactersStateMachine
 {
     public class AttackState : State
     {
+        private Timer _testAttackTimer;
         public AttackState(NavMeshAgent navMeshAgent, Func<Character> getTarget, Character character, StateMachine stateMachine) : base(navMeshAgent, getTarget, character, stateMachine)
         {
+            _testAttackTimer = new Timer(1500);
+            _testAttackTimer.Elapsed += (sender, args) => _getTarget.Invoke().TakeDamage(1);
+            _testAttackTimer.AutoReset = true;
         }
 
         public override void Enter()
         {
-            Debug.Log( _navMeshAgent.gameObject.name+ " enter Attack");
+            _testAttackTimer.Enabled = true;
+           // Debug.Log( _navMeshAgent.gameObject.name+ " enter Attack");
         }
 
         public override void Exit()
         {
-            Debug.Log( _navMeshAgent.gameObject.name+ " exit Attack");
+            _testAttackTimer.Enabled = false;
+           // Debug.Log( _navMeshAgent.gameObject.name+ " exit Attack");
         }
 
         public override void LogicUpdate()
@@ -37,6 +44,11 @@ namespace Sources.Runtime.Models.CharactersStateMachine
                 else
                     _stateMachine.ChangeState<MoveState>();
             }
+        }
+
+        public override void Update(float deltaTime)
+        {
+            
         }
     }
 }

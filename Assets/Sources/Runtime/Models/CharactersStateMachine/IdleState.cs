@@ -15,12 +15,12 @@ namespace Sources.Runtime.Models.CharactersStateMachine
 
         public override void Enter()
         {
-            Debug.Log( _navMeshAgent.gameObject.name+ " enter Idle");
+            //Debug.Log( _navMeshAgent.gameObject.name+ " enter Idle");
         }
 
         public override void Exit()
         {
-            Debug.Log( _navMeshAgent.gameObject.name + " exit Idle");
+            //Debug.Log( _navMeshAgent.gameObject.name + " exit Idle");
         }
 
         public override void LogicUpdate()
@@ -39,6 +39,11 @@ namespace Sources.Runtime.Models.CharactersStateMachine
                 else
                     _stateMachine.ChangeState<MoveState>();
             }
+        }
+
+        public override void Update(float deltaTime)
+        {
+            
         }
     }
 }

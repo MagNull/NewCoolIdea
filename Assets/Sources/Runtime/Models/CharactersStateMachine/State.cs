@@ -4,7 +4,7 @@ using UnityEngine.AI;
 
 namespace Sources.Runtime.Models.CharactersStateMachine
 {
-    public abstract class State
+    public abstract class State : IUpdatable
     {
         protected NavMeshAgent _navMeshAgent;
         protected Func<Character> _getTarget;
@@ -25,5 +25,6 @@ namespace Sources.Runtime.Models.CharactersStateMachine
         public abstract void Exit();
 
         public abstract void LogicUpdate();
+        public abstract void Update(float deltaTime);
     }
 }
