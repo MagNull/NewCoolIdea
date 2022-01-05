@@ -1,5 +1,4 @@
-﻿using Sources.Runtime.Models;
-using Sources.Runtime.Models.Characters;
+﻿using Sources.Runtime.Models.Characters;
 
 namespace Sources.Runtime.Presenters
 {

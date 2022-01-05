@@ -8,6 +8,8 @@ namespace Sources.Runtime.Composite_Roots
 {
     public class PlayerCompositeRoot : MonoBehaviour
     {
+        [SerializeField] private EnemyPresentersFactory _factory;
+        [SerializeField] private CharacterBank _bank;
         private PlayerPresenter _presenter;
         private InputRouter _inputRouter;
     

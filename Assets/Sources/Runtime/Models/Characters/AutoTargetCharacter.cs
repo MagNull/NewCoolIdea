@@ -8,10 +8,9 @@ namespace Sources.Runtime.Models.Characters
     public abstract class AutoTargetCharacter : Character
     {
         private IFindTargetStrategy _findTargetStrategy;
-        protected List<Character> _targets;
 
-        public AutoTargetCharacter(Vector3 position, Quaternion rotation, 
-            NavMeshAgent navMeshAgent, Health health, CharacterBank bank) : base(position, rotation, navMeshAgent, health)
+        public AutoTargetCharacter(Vector3 position, Quaternion rotation, Health health) 
+            : base(position, rotation, health)
         {
             _findTargetStrategy = new FindNearestStrategy();
         }

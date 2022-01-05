@@ -1,18 +1,23 @@
-﻿using Sources.Runtime.Models;
+﻿using System;
+using Sources.Runtime.Models;
 using UnityEngine;
 
 namespace Sources.Runtime.Presenters
 {
     public abstract class Presenter<T> : MonoBehaviour where T : Transformable
     {
-        [SerializeField] private T _model;
-
         public T Model => _model;
+        
+        [SerializeField] private T _model;
+        private IUpdatable _updatable;
 
-        public virtual void Init(T model)
+        public void Init(T model)
         {
             _model = model;
             enabled = true;
+            
+            if (model is IUpdatable updatable)
+                _updatable = updatable;
         
             OnMoved();
             OnRotated();
@@ -32,12 +37,12 @@ namespace Sources.Runtime.Presenters
             _model.Destroying -= OnDestroying;
         }
 
-        protected virtual void OnMoved()
+        private void OnMoved()
         {
             transform.position = _model.Position;
         }
 
-        protected virtual void OnRotated()
+        private void OnRotated()
         {
             transform.rotation = _model.Rotation;
         }
@@ -46,6 +51,8 @@ namespace Sources.Runtime.Presenters
         {
             Destroy(gameObject);
         }
+
+        private void Update() => _updatable?.Update(Time.deltaTime);
 
         protected void DestroyCompose()
         {

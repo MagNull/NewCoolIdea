@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Sources.Runtime.Models.CharactersStateMachine;
 using UnityEngine;
 using UnityEngine.AI;
@@ -13,14 +14,23 @@ namespace Sources.Runtime.Models.Characters
         private NavMeshAgent _navMeshAgent;
         private Character _targetCharacter;
         private StateMachine _stateMachine;
-
-
-        public Character(Vector3 position, Quaternion rotation, 
-            NavMeshAgent navMeshAgent, Health health) : base(position, rotation)
+        protected List<Character> _targets;
+        
+        public Character(Vector3 position, Quaternion rotation, Health health) : base(position, rotation)
         {
-            _navMeshAgent = navMeshAgent;
             _health = health;
-            
+        }
+
+        protected virtual void DefineTeam(CharacterBank characterBank)
+        {
+            _targets = characterBank.Enemies;
+            characterBank.Allies.Add(this);
+        }
+
+        public void Init(NavMeshAgent navMeshAgent, CharacterBank bank)
+        {
+            DefineTeam(bank);
+            _navMeshAgent = navMeshAgent;
             _stateMachine = new StateMachine();
             var states = GetStates();
             _stateMachine.Init(states, states[0]);

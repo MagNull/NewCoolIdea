@@ -1,14 +1,19 @@
 ﻿using UnityEngine;
-using UnityEngine.AI;
 
 namespace Sources.Runtime.Models.Characters
 {
     public class Enemy : AutoTargetCharacter
     {
-        public Enemy(Vector3 position, Quaternion rotation, NavMeshAgent navMeshAgent, 
-            Health health, CharacterBank bank) : base(position, rotation, navMeshAgent, health, bank)
+        public Enemy(Vector3 position, Quaternion rotation, 
+            Health health) : base(position, rotation, health)
         {
-            _targets = bank.Allies;
+            
+        }
+
+        protected override void DefineTeam(CharacterBank characterBank)
+        {
+            _targets = characterBank.Allies;
+            characterBank.Enemies.Add(this);
         }
     }
 }

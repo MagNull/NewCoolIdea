@@ -30,7 +30,7 @@ namespace Sources.Runtime.Models.CharactersStateMachine
 
         public override void LogicUpdate()
         {
-            var targetCharacter = _getTarget.Invoke();
+            Character targetCharacter = _getTarget.Invoke();
             if (targetCharacter is not null)
             {
                 if (Vector3.SqrMagnitude(targetCharacter.Position - _character.Position) >

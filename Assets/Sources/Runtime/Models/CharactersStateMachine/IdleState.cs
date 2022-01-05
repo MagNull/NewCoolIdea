@@ -25,7 +25,7 @@ namespace Sources.Runtime.Models.CharactersStateMachine
 
         public override void LogicUpdate()
         {
-            var targetCharacter = _getTarget.Invoke();
+            Character targetCharacter = _getTarget.Invoke();
             if (targetCharacter is null)
             {
                 if(_navMeshAgent.remainingDistance > 0.1f)

@@ -1,4 +1,5 @@
 ﻿using System;
+using Sources.External.QuickOutline.Scripts;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,8 +10,8 @@ namespace Sources.Runtime.Models.Characters
         public Action Selected;
         public Action Deselected;
 
-        public CommandableCharacter(Vector3 position, Quaternion rotation, 
-            NavMeshAgent navMeshAgent, Health health, Outline outline) : base(position, rotation, navMeshAgent, health)
+        public CommandableCharacter(Vector3 position, Quaternion rotation, Health health, Outline outline) 
+            : base(position, rotation, health)
         {
             Selected += () => outline.enabled = true;
             Deselected += () => outline.enabled = false;
