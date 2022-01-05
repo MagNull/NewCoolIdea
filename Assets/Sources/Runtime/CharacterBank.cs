@@ -6,7 +6,7 @@ namespace Sources.Runtime
 {
     public class CharacterBank : MonoBehaviour
     {
-        public List<Character> Allies = new();
-        public List<Character> Enemies = new();
+        public List<Character> Allies = new List<Character>();
+        public List<Character> Enemies = new List<Character>();
     }
 }

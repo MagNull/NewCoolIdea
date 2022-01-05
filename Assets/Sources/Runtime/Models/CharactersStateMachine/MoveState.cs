@@ -7,13 +7,17 @@ namespace Sources.Runtime.Models.CharactersStateMachine
 {
     public class MoveState : State
     {
-        public MoveState(NavMeshAgent navMeshAgent, Func<Character> getTarget, Character character, StateMachine stateMachine) : base(navMeshAgent, getTarget, character, stateMachine)
+        public MoveState(NavMeshAgent navMeshAgent, Func<Character> getTarget, Character character, 
+            StateMachine stateMachine, Animator animator) 
+            : base(navMeshAgent, getTarget, character, stateMachine, animator)
         {
+            _animationTrigger = Animator.StringToHash("Move");
         }
-
+        
         public override void Enter()
         {
             //Debug.Log( _navMeshAgent.gameObject.name+ " enter Move");
+            _animator.SetTrigger(_animationTrigger);
             _navMeshAgent.isStopped = false;
         }
 
@@ -26,7 +30,7 @@ namespace Sources.Runtime.Models.CharactersStateMachine
         public override void LogicUpdate()
         {
             Character targetCharacter = _getTarget.Invoke();
-            if (targetCharacter is not null)
+            if (!(targetCharacter is null))
             {
                 if(Vector3.SqrMagnitude(targetCharacter.Position - _character.Position) <= 
                    _character.AttackDistance * _character.AttackDistance)
@@ -39,7 +43,7 @@ namespace Sources.Runtime.Models.CharactersStateMachine
         public override void Update(float deltaTime)
         {
             var targetCharacter = _getTarget.Invoke();
-            if (targetCharacter is not null)
+            if (!(targetCharacter is null))
             {
                 _navMeshAgent.SetDestination(targetCharacter.Position);
             }

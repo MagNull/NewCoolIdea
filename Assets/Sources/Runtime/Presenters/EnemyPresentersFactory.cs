@@ -12,7 +12,7 @@ namespace Sources.Runtime.Presenters
         public void Create(Character model)
         {
             var presenter = Instantiate(_testEnemyPrefab, model.Position, model.Rotation);
-            model.Init(presenter.GetComponent<NavMeshAgent>(), _characterBank);
+            model.Init(presenter.GetComponent<NavMeshAgent>(), presenter.GetComponent<Animator>(), _characterBank);
             presenter.Init(model);
         }
     }

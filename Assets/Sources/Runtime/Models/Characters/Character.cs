@@ -27,21 +27,21 @@ namespace Sources.Runtime.Models.Characters
             characterBank.Allies.Add(this);
         }
 
-        public void Init(NavMeshAgent navMeshAgent, CharacterBank bank)
+        public void Init(NavMeshAgent navMeshAgent, Animator animator, CharacterBank bank)
         {
             DefineTeam(bank);
             _navMeshAgent = navMeshAgent;
             _stateMachine = new StateMachine();
-            var states = GetStates();
+            var states = GetStates(animator);
             _stateMachine.Init(states, states[0]);
         }
 
-        private State[] GetStates()
+        private State[] GetStates(Animator animator)
         {
             var states = new State[3];
-            states[0] = new IdleState(_navMeshAgent, GetTarget, this, _stateMachine);
-            states[1] = new MoveState(_navMeshAgent, GetTarget, this, _stateMachine);
-            states[2] = new AttackState(_navMeshAgent, GetTarget, this, _stateMachine);
+            states[0] = new IdleState(_navMeshAgent, GetTarget, this, _stateMachine, animator);
+            states[1] = new MoveState(_navMeshAgent, GetTarget, this, _stateMachine, animator);
+            states[2] = new AttackState(_navMeshAgent, GetTarget, this, _stateMachine, animator);
 
             return states;
         }

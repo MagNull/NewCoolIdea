@@ -1,5 +1,4 @@
-﻿using System;
-using Sources.External.QuickOutline.Scripts;
+﻿using Sources.External.QuickOutline.Scripts;
 using Sources.Runtime.Models;
 using Sources.Runtime.Models.Characters;
 using Sources.Runtime.Presenters;
@@ -12,9 +11,9 @@ namespace Sources.Runtime.Composite_Roots
         typeof(NavMeshAgent),
         typeof(CharacterPresenter),
         typeof(Outline))]
+    [RequireComponent(typeof(Animator))]
     public class CharacterCompositeRoot : MonoBehaviour
     {
-        [SerializeField] private bool _isEnemy = false;
         [SerializeField] private CharacterBank _bank;
         private NavMeshAgent _navMeshAgent;
         private CharacterPresenter _presenter;
@@ -24,11 +23,9 @@ namespace Sources.Runtime.Composite_Roots
         {
             _navMeshAgent = GetComponent<NavMeshAgent>();
             _presenter = GetComponent<CharacterPresenter>();
-            _character = _isEnemy ? 
-                new Enemy(transform.position, transform.rotation, new Health(10)) : 
-                new CommandableCharacter(transform.position, transform.rotation, new Health(10), 
-                    GetComponent<Outline>());
-            _character.Init(_navMeshAgent, _bank);
+            _character = new CommandableCharacter(transform.position, transform.rotation, 
+                new Health(10), GetComponent<Outline>());
+            _character.Init(_navMeshAgent, GetComponent<Animator>(), _bank);
 
             _presenter.Init(_character);
         }

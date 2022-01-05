@@ -8,14 +8,16 @@ namespace Sources.Runtime.Models.CharactersStateMachine
     public class IdleState : State
     {
         public IdleState(NavMeshAgent navMeshAgent, Func<Character> getTarget, Character character, 
-            StateMachine stateMachine) 
-            : base(navMeshAgent, getTarget, character, stateMachine)
+            StateMachine stateMachine, Animator animator) 
+            : base(navMeshAgent, getTarget, character, stateMachine, animator)
         {
+            _animationTrigger = Animator.StringToHash("Idle");
         }
 
         public override void Enter()
         {
             //Debug.Log( _navMeshAgent.gameObject.name+ " enter Idle");
+            _animator.SetTrigger(_animationTrigger);
         }
 
         public override void Exit()

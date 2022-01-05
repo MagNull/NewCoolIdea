@@ -12,7 +12,6 @@ namespace Sources.Runtime.Models.CharactersStateMachine
             _states = states;
             
             _currentState = startState;
-            _currentState.Enter();
         }
         
         public void ChangeState<T>() where T : State

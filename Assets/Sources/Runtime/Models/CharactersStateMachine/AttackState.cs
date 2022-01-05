@@ -9,16 +9,20 @@ namespace Sources.Runtime.Models.CharactersStateMachine
     public class AttackState : State
     {
         private Timer _testAttackTimer;
-        public AttackState(NavMeshAgent navMeshAgent, Func<Character> getTarget, Character character, StateMachine stateMachine) : base(navMeshAgent, getTarget, character, stateMachine)
+        public AttackState(NavMeshAgent navMeshAgent, Func<Character> getTarget, Character character,
+            StateMachine stateMachine, Animator animator) 
+            : base(navMeshAgent, getTarget, character, stateMachine, animator)
         {
             _testAttackTimer = new Timer(1500);
             _testAttackTimer.Elapsed += (sender, args) => _getTarget.Invoke().TakeDamage(1);
             _testAttackTimer.AutoReset = true;
+            _animationTrigger = Animator.StringToHash("Attack");
         }
 
         public override void Enter()
         {
             _testAttackTimer.Enabled = true;
+            _animator.SetTrigger(_animationTrigger);
            // Debug.Log( _navMeshAgent.gameObject.name+ " enter Attack");
         }
 
@@ -31,7 +35,7 @@ namespace Sources.Runtime.Models.CharactersStateMachine
         public override void LogicUpdate()
         {
             Character targetCharacter = _getTarget.Invoke();
-            if (targetCharacter is not null)
+            if (!(targetCharacter is null))
             {
                 if (Vector3.SqrMagnitude(targetCharacter.Position - _character.Position) >
                     _character.AttackDistance * _character.AttackDistance)
