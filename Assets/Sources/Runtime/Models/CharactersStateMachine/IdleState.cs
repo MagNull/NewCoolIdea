@@ -7,17 +7,13 @@ namespace Sources.Runtime.Models.CharactersStateMachine
 {
     public class IdleState : State
     {
-        public IdleState(NavMeshAgent navMeshAgent, Func<Character> getTarget, Character character, 
-            StateMachine stateMachine, Animator animator) 
-            : base(navMeshAgent, getTarget, character, stateMachine, animator)
+        public IdleState(NavMeshAgent navMeshAgent, Func<Character> getTarget, Transformable characterTransformable, float attackDistance, StateMachine stateMachine) : base(navMeshAgent, getTarget, characterTransformable, attackDistance, stateMachine)
         {
-            _animationTrigger = Animator.StringToHash("Idle");
         }
-
+        
         public override void Enter()
         {
             //Debug.Log( _navMeshAgent.gameObject.name+ " enter Idle");
-            _animator.SetTrigger(_animationTrigger);
         }
 
         public override void Exit()
@@ -35,8 +31,8 @@ namespace Sources.Runtime.Models.CharactersStateMachine
             }
             else
             {
-                if(Vector3.SqrMagnitude(_character.Position - targetCharacter.Position) <= 
-                   _character.AttackDistance * _character.AttackDistance)
+                if(Vector3.SqrMagnitude(_characterTransformable.Position - targetCharacter.Position) <= 
+                   _attackDistance * _attackDistance)
                     _stateMachine.ChangeState<AttackState>();
                 else
                     _stateMachine.ChangeState<MoveState>();

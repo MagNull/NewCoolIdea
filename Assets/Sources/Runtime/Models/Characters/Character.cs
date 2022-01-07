@@ -9,6 +9,8 @@ namespace Sources.Runtime.Models.Characters
     [Serializable]
     public class Character : Transformable, IUpdatable
     {
+        public Action<State> StateChanged;
+            
         [SerializeField] private Health _health;
         private float _attackDistance = 3;
         private NavMeshAgent _navMeshAgent;
@@ -27,26 +29,24 @@ namespace Sources.Runtime.Models.Characters
             characterBank.Allies.Add(this);
         }
 
-        public void Init(NavMeshAgent navMeshAgent, Animator animator, CharacterBank bank)
+        public void Init(NavMeshAgent navMeshAgent, CharacterBank bank)
         {
             DefineTeam(bank);
             _navMeshAgent = navMeshAgent;
-            _stateMachine = new StateMachine();
-            var states = GetStates(animator);
+            _stateMachine = new StateMachine(this);
+            var states = GetStates();
             _stateMachine.Init(states, states[0]);
         }
 
-        private State[] GetStates(Animator animator)
+        private State[] GetStates()
         {
             var states = new State[3];
-            states[0] = new IdleState(_navMeshAgent, GetTarget, this, _stateMachine, animator);
-            states[1] = new MoveState(_navMeshAgent, GetTarget, this, _stateMachine, animator);
-            states[2] = new AttackState(_navMeshAgent, GetTarget, this, _stateMachine, animator);
+            states[0] = new IdleState(_navMeshAgent, GetTarget, this, _attackDistance, _stateMachine);
+            states[1] = new MoveState(_navMeshAgent, GetTarget, this, _attackDistance, _stateMachine);
+            states[2] = new AttackState(_navMeshAgent, GetTarget, this, _attackDistance, _stateMachine);
 
             return states;
         }
-
-        public float AttackDistance => _attackDistance;
 
         public void TakeDamage(int damage) => _health.TakeDamage(damage);
         
@@ -55,7 +55,7 @@ namespace Sources.Runtime.Models.Characters
             _targetCharacter = null;
             if (target is Vector3 targetPos)
                 _navMeshAgent.SetDestination(targetPos);
-            if (target is Character targetCharacter)
+            if (target is Character targetCharacter && targetCharacter != this)
                 _targetCharacter = targetCharacter;
         }
         

@@ -7,17 +7,13 @@ namespace Sources.Runtime.Models.CharactersStateMachine
 {
     public class MoveState : State
     {
-        public MoveState(NavMeshAgent navMeshAgent, Func<Character> getTarget, Character character, 
-            StateMachine stateMachine, Animator animator) 
-            : base(navMeshAgent, getTarget, character, stateMachine, animator)
+        public MoveState(NavMeshAgent navMeshAgent, Func<Character> getTarget, Transformable characterTransformable, float attackDistance, StateMachine stateMachine) : base(navMeshAgent, getTarget, characterTransformable, attackDistance, stateMachine)
         {
-            _animationTrigger = Animator.StringToHash("Move");
         }
         
         public override void Enter()
         {
             //Debug.Log( _navMeshAgent.gameObject.name+ " enter Move");
-            _animator.SetTrigger(_animationTrigger);
             _navMeshAgent.isStopped = false;
         }
 
@@ -32,8 +28,8 @@ namespace Sources.Runtime.Models.CharactersStateMachine
             Character targetCharacter = _getTarget.Invoke();
             if (!(targetCharacter is null))
             {
-                if(Vector3.SqrMagnitude(targetCharacter.Position - _character.Position) <= 
-                   _character.AttackDistance * _character.AttackDistance)
+                if(Vector3.SqrMagnitude(targetCharacter.Position - _characterTransformable.Position) <= 
+                   _attackDistance * _attackDistance)
                     _stateMachine.ChangeState<AttackState>();
             }
             else if(_navMeshAgent.remainingDistance <= 0.1f)

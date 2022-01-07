@@ -7,23 +7,22 @@ namespace Sources.Runtime.Models.CharactersStateMachine
 {
     public abstract class State : IUpdatable
     {
-        protected NavMeshAgent _navMeshAgent;
-        protected Func<Character> _getTarget;
-        protected Character _character;
-        protected StateMachine _stateMachine;
-        protected Animator _animator;
-        protected int _animationTrigger;
+        protected readonly NavMeshAgent _navMeshAgent;
+        protected readonly Func<Character> _getTarget;
+        protected float _attackDistance;
+        protected readonly StateMachine _stateMachine;
+        protected Transformable _characterTransformable;
 
-        public State(NavMeshAgent navMeshAgent, Func<Character> getTarget, Character character,
-            StateMachine stateMachine, Animator animator)
+        public State(NavMeshAgent navMeshAgent, Func<Character> getTarget, Transformable characterTransformable,
+            float attackDistance, StateMachine stateMachine)
         {
             _navMeshAgent = navMeshAgent;
             _getTarget = getTarget;
-            _character = character;
+            _attackDistance = attackDistance;
+            _characterTransformable = characterTransformable;
             _stateMachine = stateMachine;
-            _animator = animator;
         }
-        
+
         public abstract void Enter();
 
         public abstract void Exit();

@@ -9,27 +9,22 @@ namespace Sources.Runtime.Models.CharactersStateMachine
     public class AttackState : State
     {
         private Timer _testAttackTimer;
-        public AttackState(NavMeshAgent navMeshAgent, Func<Character> getTarget, Character character,
-            StateMachine stateMachine, Animator animator) 
-            : base(navMeshAgent, getTarget, character, stateMachine, animator)
+        
+        public AttackState(NavMeshAgent navMeshAgent, Func<Character> getTarget, Transformable characterTransformable, float attackDistance, StateMachine stateMachine) : base(navMeshAgent, getTarget, characterTransformable, attackDistance, stateMachine)
         {
             _testAttackTimer = new Timer(1500);
             _testAttackTimer.Elapsed += (sender, args) => _getTarget.Invoke().TakeDamage(1);
             _testAttackTimer.AutoReset = true;
-            _animationTrigger = Animator.StringToHash("Attack");
         }
 
         public override void Enter()
         {
             _testAttackTimer.Enabled = true;
-            _animator.SetTrigger(_animationTrigger);
-           // Debug.Log( _navMeshAgent.gameObject.name+ " enter Attack");
         }
 
         public override void Exit()
         {
             _testAttackTimer.Enabled = false;
-           // Debug.Log( _navMeshAgent.gameObject.name+ " exit Attack");
         }
 
         public override void LogicUpdate()
@@ -37,8 +32,8 @@ namespace Sources.Runtime.Models.CharactersStateMachine
             Character targetCharacter = _getTarget.Invoke();
             if (!(targetCharacter is null))
             {
-                if (Vector3.SqrMagnitude(targetCharacter.Position - _character.Position) >
-                    _character.AttackDistance * _character.AttackDistance)
+                if (Vector3.SqrMagnitude(targetCharacter.Position - _characterTransformable.Position) >
+                    _attackDistance * _attackDistance)
                     _stateMachine.ChangeState<MoveState>();
             }
             else
