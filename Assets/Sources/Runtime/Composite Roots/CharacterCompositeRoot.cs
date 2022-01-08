@@ -15,6 +15,7 @@ namespace Sources.Runtime.Composite_Roots
     public class CharacterCompositeRoot : MonoBehaviour
     {
         [SerializeField] private CharacterBank _bank;
+        [SerializeField] private float _attackDistance = .5f;
         private NavMeshAgent _navMeshAgent;
         private CharacterPresenter _presenter;
         private Character _character;
@@ -24,9 +25,8 @@ namespace Sources.Runtime.Composite_Roots
             _navMeshAgent = GetComponent<NavMeshAgent>();
             _presenter = GetComponent<CharacterPresenter>();
             _character = new CommandableCharacter(transform.position, transform.rotation, 
-                new Health(10), GetComponent<Outline>());
+                new Health(10), GetComponent<Outline>(), _attackDistance);
             _character.Init(_navMeshAgent, _bank);
-
             _presenter.Init(_character);
         }
     }

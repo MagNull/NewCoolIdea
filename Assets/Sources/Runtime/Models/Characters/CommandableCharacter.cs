@@ -10,8 +10,9 @@ namespace Sources.Runtime.Models.Characters
         public Action Selected;
         public Action Deselected;
 
-        public CommandableCharacter(Vector3 position, Quaternion rotation, Health health, Outline outline) 
-            : base(position, rotation, health)
+        public CommandableCharacter(Vector3 position, Quaternion rotation, Health health, 
+            Outline outline, float attackDistance) 
+            : base(position, rotation, health, attackDistance)
         {
             Selected += () => outline.enabled = true;
             Deselected += () => outline.enabled = false;

@@ -9,8 +9,8 @@ namespace Sources.Runtime.Models.Characters
     {
         private IFindTargetStrategy _findTargetStrategy;
 
-        public AutoTargetCharacter(Vector3 position, Quaternion rotation, Health health) 
-            : base(position, rotation, health)
+        public AutoTargetCharacter(Vector3 position, Quaternion rotation, Health health, float attackDistance) 
+            : base(position, rotation, health, attackDistance)
         {
             _findTargetStrategy = new FindNearestStrategy();
         }

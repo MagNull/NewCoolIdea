@@ -36,7 +36,7 @@ namespace Sources.Runtime
             for (var i = 0; i < _enemyCount; i++)
             {
                 Vector3 position = GetRandomAreaPosition();
-                var model = new Enemy(position, Quaternion.identity, new Health(10));
+                var model = new Enemy(position, Quaternion.identity, new Health(10), 0.5f); //TODO: Change
                 _enemyFactory.Create(model);
             }
         }

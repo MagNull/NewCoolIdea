@@ -26,7 +26,7 @@ namespace Sources.Runtime.Models.CharactersStateMachine
             Character targetCharacter = _getTarget.Invoke();
             if (targetCharacter is null)
             {
-                if(_navMeshAgent.remainingDistance > 0.1f)
+                if(_navMeshAgent.remainingDistance > 0.3f)
                     _stateMachine.ChangeState<MoveState>();
             }
             else

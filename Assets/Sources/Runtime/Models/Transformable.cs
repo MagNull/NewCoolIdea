@@ -24,6 +24,12 @@ namespace Sources.Runtime.Models
             Quaternion angle = Quaternion.FromToRotation(Vector3.forward, Forward);
             return angle * direction;
         }
+
+        public void LookAt(Transformable target)
+        {
+            Rotation = Quaternion.LookRotation(target.Position - Position);
+            Rotated?.Invoke();
+        }
         
         public virtual void Rotate(Vector2 delta)
         {

@@ -32,7 +32,7 @@ namespace Sources.Runtime.Models.CharactersStateMachine
                    _attackDistance * _attackDistance)
                     _stateMachine.ChangeState<AttackState>();
             }
-            else if(_navMeshAgent.remainingDistance <= 0.1f)
+            else if(_navMeshAgent.remainingDistance <= 0.3f)
                 _stateMachine.ChangeState<IdleState>();
         }
 

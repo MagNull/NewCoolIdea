@@ -13,6 +13,8 @@ namespace Sources.Runtime.Presenters
         private readonly int _moveTrigger = Animator.StringToHash("Move");
         private readonly int _idleTrigger = Animator.StringToHash("Idle");
 
+        public void AttackTarget() => Model.AttackTarget();
+        
         private void Awake()
         {
             _animator = GetComponent<Animator>();
@@ -39,5 +41,6 @@ namespace Sources.Runtime.Presenters
             else if(newState is IdleState)
                 _animator.SetTrigger(_idleTrigger);
         }
+        
     }
 }

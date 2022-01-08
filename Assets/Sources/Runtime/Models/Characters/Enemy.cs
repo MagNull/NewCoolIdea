@@ -5,7 +5,7 @@ namespace Sources.Runtime.Models.Characters
     public class Enemy : AutoTargetCharacter
     {
         public Enemy(Vector3 position, Quaternion rotation, 
-            Health health) : base(position, rotation, health)
+            Health health, float attackDistance) : base(position, rotation, health, attackDistance)
         {
             
         }

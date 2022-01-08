@@ -8,23 +8,19 @@ namespace Sources.Runtime.Models.CharactersStateMachine
 {
     public class AttackState : State
     {
-        private Timer _testAttackTimer;
-        
         public AttackState(NavMeshAgent navMeshAgent, Func<Character> getTarget, Transformable characterTransformable, float attackDistance, StateMachine stateMachine) : base(navMeshAgent, getTarget, characterTransformable, attackDistance, stateMachine)
         {
-            _testAttackTimer = new Timer(1500);
-            _testAttackTimer.Elapsed += (sender, args) => _getTarget.Invoke().TakeDamage(1);
-            _testAttackTimer.AutoReset = true;
+            
         }
 
         public override void Enter()
         {
-            _testAttackTimer.Enabled = true;
+            
         }
 
         public override void Exit()
         {
-            _testAttackTimer.Enabled = false;
+            
         }
 
         public override void LogicUpdate()
@@ -38,7 +34,7 @@ namespace Sources.Runtime.Models.CharactersStateMachine
             }
             else
             {
-                if(_navMeshAgent.remainingDistance <= 0.1f)
+                if(_navMeshAgent.remainingDistance <= 0.3f)
                     _stateMachine.ChangeState<IdleState>();
                 else
                     _stateMachine.ChangeState<MoveState>();
@@ -47,7 +43,7 @@ namespace Sources.Runtime.Models.CharactersStateMachine
 
         public override void Update(float deltaTime)
         {
-            
+            _characterTransformable.LookAt(_getTarget.Invoke());
         }
     }
 }
