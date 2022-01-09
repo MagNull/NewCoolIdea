@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Sources.Runtime.Models.FindTargetStrategies;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace Sources.Runtime.Models.Characters
 {
@@ -20,5 +19,6 @@ namespace Sources.Runtime.Models.Characters
             SetTarget(_findTargetStrategy.GetTarget(_targets, this));
             base.Update(deltaTime);
         }
+        
     }
 }

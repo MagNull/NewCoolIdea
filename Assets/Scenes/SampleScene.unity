@@ -1549,7 +1549,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bank: {fileID: 726179522}
-  _attackDistance: 2
+  _attackDistance: 2.1
 --- !u!136 &625316903
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1591,7 +1591,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 625316898}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.17, y: 0.0000009536743, z: 11.300169}
+  m_LocalPosition: {x: -0.17, y: 0.0000009536743, z: 11.300169}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 1201031978}
@@ -2016,7 +2016,7 @@ MonoBehaviour:
     <Position>k__BackingField: {x: 0, y: 0, z: 0}
     <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
     _health:
-      _value: 10
+      _value: 2
 --- !u!114 &708060033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2048,7 +2048,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bank: {fileID: 726179522}
-  _attackDistance: 2
+  _attackDistance: 2.1
 --- !u!136 &708060035
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2389,7 +2389,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bank: {fileID: 726179522}
-  _attackDistance: 2
+  _attackDistance: 2.1
 --- !u!136 &816002075
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3352,7 +3352,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1052024242
 Transform:
   m_ObjectHideFlags: 0
@@ -3383,6 +3383,8 @@ MonoBehaviour:
   _waveAreaSize: {x: 50, y: 50}
   _enemyCount: 1
   _waveTestInterval: 1
+  _healthValue: 1
+  _attackDistance: 2.1
 --- !u!1 &1070498730
 GameObject:
   m_ObjectHideFlags: 0
@@ -5693,7 +5695,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f57b45efc1aeb45a73bf8661506f82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _testEnemyPrefab: {fileID: 3172280405546156283, guid: a8b0922d1cd2ed14191a7861a36ec9b7, type: 3}
+  _testEnemyPrefab: {fileID: 2276440897329708270, guid: a8b0922d1cd2ed14191a7861a36ec9b7, type: 3}
   _characterBank: {fileID: 726179522}
 --- !u!4 &1951622998
 Transform:

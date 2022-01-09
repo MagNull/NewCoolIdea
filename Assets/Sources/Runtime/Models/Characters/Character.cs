@@ -20,7 +20,7 @@ namespace Sources.Runtime.Models.Characters
         protected List<Character> _targets;
         
         public bool IsAlive { get; private set; }
-        
+
         public Character(Vector3 position, Quaternion rotation, Health health, float attackDistance) : base(position, rotation)
         {
             _health = health;
@@ -88,6 +88,7 @@ namespace Sources.Runtime.Models.Characters
         {
             _targets = characterBank.Enemies;
             characterBank.Allies.Add(this);
+            Destroying += () => characterBank.Allies.Remove(this);
         }
     }
 }

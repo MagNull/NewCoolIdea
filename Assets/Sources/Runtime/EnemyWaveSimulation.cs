@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Timers;
 using Sources.Runtime.Models;
 using Sources.Runtime.Models.Characters;
 using Sources.Runtime.Presenters;
@@ -16,6 +15,10 @@ namespace Sources.Runtime
         [SerializeField] private Vector2 _waveAreaSize;
         [SerializeField] private int _enemyCount;
         [SerializeField] private int _waveTestInterval = 5;
+
+        [Header("Test Enemy Configs")] 
+        [SerializeField] private int _healthValue = 1;
+        [SerializeField] private float _attackDistance = 2;
 
         private void Start()
         {
@@ -36,7 +39,7 @@ namespace Sources.Runtime
             for (var i = 0; i < _enemyCount; i++)
             {
                 Vector3 position = GetRandomAreaPosition();
-                var model = new Enemy(position, Quaternion.identity, new Health(10), 0.5f); //TODO: Change
+                var model = new Enemy(position, Quaternion.identity, new Health(_healthValue), _attackDistance); //TODO: Change
                 _enemyFactory.Create(model);
             }
         }
