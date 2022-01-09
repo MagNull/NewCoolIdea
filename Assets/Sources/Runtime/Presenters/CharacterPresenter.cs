@@ -14,7 +14,11 @@ namespace Sources.Runtime.Presenters
         private readonly int _idleTrigger = Animator.StringToHash("Idle");
         private readonly int _dieTrigger = Animator.StringToHash("Die");
 
-        public void AttackTarget() => Model.AttackTarget();
+        public void AttackTarget()
+        {
+            Debug.Log("Attack");
+            Model.AttackTarget();   
+        }
         
         private void Awake()
         {

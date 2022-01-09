@@ -1549,7 +1549,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bank: {fileID: 726179522}
-  _attackDistance: 2.1
+  _minAttackDistance: 2
+  _maxAttackDistance: 3
 --- !u!136 &625316903
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2048,7 +2049,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bank: {fileID: 726179522}
-  _attackDistance: 2.1
+  _minAttackDistance: 2
+  _maxAttackDistance: 3
 --- !u!136 &708060035
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2090,7 +2092,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 708060030}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.866534, y: 0.0000009536743, z: -10.66}
+  m_LocalPosition: {x: -6.02, y: 0.0000009536743, z: 6.37}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 1964819781}
@@ -2389,7 +2391,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bank: {fileID: 726179522}
-  _attackDistance: 2.1
+  _minAttackDistance: 2
+  _maxAttackDistance: 3
 --- !u!136 &816002075
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3384,7 +3387,8 @@ MonoBehaviour:
   _enemyCount: 1
   _waveTestInterval: 1
   _healthValue: 1
-  _attackDistance: 2.1
+  _minAttackDistance: 2
+  _maxAttackDistance: 3
 --- !u!1 &1070498730
 GameObject:
   m_ObjectHideFlags: 0

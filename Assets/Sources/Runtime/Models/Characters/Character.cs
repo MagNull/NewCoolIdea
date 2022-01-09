@@ -13,7 +13,8 @@ namespace Sources.Runtime.Models.Characters
         public Action<State> StateChanged;
 
         [SerializeField] private Health _health;
-        private float _attackDistance = 3;
+        private float _minAttackDistance;
+        private float _maxAttackDistance;
         private NavMeshAgent _navMeshAgent;
         private Character _targetCharacter;
         private StateMachine _stateMachine;
@@ -21,12 +22,14 @@ namespace Sources.Runtime.Models.Characters
         
         public bool IsAlive { get; private set; }
 
-        public Character(Vector3 position, Quaternion rotation, Health health, float attackDistance) : base(position, rotation)
+        public Character(Vector3 position, Quaternion rotation, Health health, 
+            float minAttackDistance, float maxAttackDistance) : base(position, rotation)
         {
             _health = health;
             IsAlive = true;
             _health.Died += Die;
-            _attackDistance = attackDistance;
+            _minAttackDistance = minAttackDistance;
+            _maxAttackDistance = maxAttackDistance;
         }
 
         public void Init(NavMeshAgent navMeshAgent, CharacterBank bank)
@@ -69,10 +72,10 @@ namespace Sources.Runtime.Models.Characters
         {
             var states = new State[4];
             Character GetTarget() => _targetCharacter;
-            states[0] = new IdleState(_navMeshAgent, GetTarget, this, _attackDistance, _stateMachine);
-            states[1] = new MoveState(_navMeshAgent, GetTarget, this, _attackDistance, _stateMachine);
-            states[2] = new AttackState(_navMeshAgent, GetTarget, this, _attackDistance, _stateMachine);
-            states[3] = new DieState(_navMeshAgent, GetTarget, this, _attackDistance, _stateMachine);
+            states[0] = new IdleState(_navMeshAgent, GetTarget, this, _minAttackDistance, _stateMachine);
+            states[1] = new MoveState(_navMeshAgent, GetTarget, this, _minAttackDistance, _stateMachine);
+            states[2] = new AttackState(_navMeshAgent, GetTarget, this, _maxAttackDistance, _stateMachine);
+            states[3] = new DieState(_navMeshAgent, GetTarget, this, _minAttackDistance, _stateMachine);
 
             return states;
         }
@@ -80,15 +83,15 @@ namespace Sources.Runtime.Models.Characters
         protected virtual void Die()
         {
             IsAlive = false;
+            _stateMachine.ChangeState<DieState>(); 
             _navMeshAgent.enabled = false;
-           _stateMachine.ChangeState<DieState>(); 
         }
         
         protected virtual void DefineTeam(CharacterBank characterBank)
         {
             _targets = characterBank.Enemies;
             characterBank.Allies.Add(this);
-            Destroying += () => characterBank.Allies.Remove(this);
+            _health.Died += () => characterBank.Allies.Remove(this);
         }
     }
 }

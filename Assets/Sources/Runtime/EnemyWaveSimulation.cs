@@ -18,7 +18,8 @@ namespace Sources.Runtime
 
         [Header("Test Enemy Configs")] 
         [SerializeField] private int _healthValue = 1;
-        [SerializeField] private float _attackDistance = 2;
+        [SerializeField] private float _minAttackDistance = 2;
+        [SerializeField] private float _maxAttackDistance = 2;
 
         private void Start()
         {
@@ -39,7 +40,8 @@ namespace Sources.Runtime
             for (var i = 0; i < _enemyCount; i++)
             {
                 Vector3 position = GetRandomAreaPosition();
-                var model = new Enemy(position, Quaternion.identity, new Health(_healthValue), _attackDistance); //TODO: Change
+                var model = new Enemy(position, Quaternion.identity, new Health(_healthValue),
+                    _minAttackDistance, _maxAttackDistance); //TODO: Change
                 _enemyFactory.Create(model);
             }
         }
