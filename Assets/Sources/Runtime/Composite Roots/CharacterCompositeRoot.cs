@@ -25,7 +25,7 @@ namespace Sources.Runtime.Composite_Roots
             _navMeshAgent = GetComponent<NavMeshAgent>();
             _presenter = GetComponent<CharacterPresenter>();
             _character = new CommandableCharacter(transform.position, transform.rotation, 
-                new Health(10), GetComponent<Outline>(), _attackDistance);
+                new Health(2), GetComponent<Outline>(), _attackDistance);
             _character.Init(_navMeshAgent, _bank);
             _presenter.Init(_character);
         }

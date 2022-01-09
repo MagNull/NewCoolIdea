@@ -12,6 +12,7 @@ namespace Sources.Runtime.Presenters
         private readonly int _attackTrigger = Animator.StringToHash("Attack");
         private readonly int _moveTrigger = Animator.StringToHash("Move");
         private readonly int _idleTrigger = Animator.StringToHash("Idle");
+        private readonly int _dieTrigger = Animator.StringToHash("Die");
 
         public void AttackTarget() => Model.AttackTarget();
         
@@ -40,6 +41,8 @@ namespace Sources.Runtime.Presenters
                 _animator.SetTrigger(_moveTrigger);
             else if(newState is IdleState)
                 _animator.SetTrigger(_idleTrigger);
+            else if(newState is DieState)
+                _animator.SetTrigger(_dieTrigger);
         }
         
     }

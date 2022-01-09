@@ -29,7 +29,7 @@ namespace Sources.Runtime.Models.CharactersStateMachine
                 if(_navMeshAgent.remainingDistance > 0.3f)
                     _stateMachine.ChangeState<MoveState>();
             }
-            else
+            else if(targetCharacter.IsAlive)
             {
                 if(Vector3.SqrMagnitude(_characterTransformable.Position - targetCharacter.Position) <= 
                    _attackDistance * _attackDistance)

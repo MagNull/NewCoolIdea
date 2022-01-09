@@ -25,15 +25,18 @@ namespace Sources.Runtime.Models
             return angle * direction;
         }
 
-        public void LookAt(Transformable target)
+        public void LookAt(object target)
         {
-            Rotation = Quaternion.LookRotation(target.Position - Position);
+            if(target is Transformable targetTransformable)
+                Rotation = Quaternion.LookRotation(targetTransformable.Position - Position);
+            else if(target is Vector3 targetVector)
+                Rotation = Quaternion.LookRotation(targetVector - Position);
             Rotated?.Invoke();
         }
         
-        public virtual void Rotate(Vector2 delta)
+        public void RotateTo(Vector3 rotation)
         {
-            Rotation *= Quaternion.Euler(delta);
+            Rotation = Quaternion.Euler(rotation);
             Rotated?.Invoke();
         }
 

@@ -26,7 +26,7 @@ namespace Sources.Runtime.Models.CharactersStateMachine
         public override void LogicUpdate()
         {
             Character targetCharacter = _getTarget.Invoke();
-            if (!(targetCharacter is null))
+            if (!(targetCharacter is null) && targetCharacter.IsAlive)
             {
                 if(Vector3.SqrMagnitude(targetCharacter.Position - _characterTransformable.Position) <= 
                    _attackDistance * _attackDistance)
@@ -42,6 +42,7 @@ namespace Sources.Runtime.Models.CharactersStateMachine
             if (!(targetCharacter is null))
             {
                 _navMeshAgent.SetDestination(targetCharacter.Position);
+                _characterTransformable.LookAt(targetCharacter);
             }
         }
     }

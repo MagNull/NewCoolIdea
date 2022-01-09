@@ -10,6 +10,8 @@ namespace Sources.Runtime.Models.Characters
         public Action Selected;
         public Action Deselected;
 
+        private CharacterControl _currentCommander;
+
         public CommandableCharacter(Vector3 position, Quaternion rotation, Health health, 
             Outline outline, float attackDistance) 
             : base(position, rotation, health, attackDistance)
@@ -20,16 +22,28 @@ namespace Sources.Runtime.Models.Characters
 
         public void Select(CharacterControl commander)
         {
-            commander.Commanded += SetTarget;
-            commander.SelectionCanceled += Deselect;
-            Selected?.Invoke();
+            if (IsAlive)
+            {
+                _currentCommander = commander;
+                _currentCommander.Commanded += SetTarget;
+                _currentCommander.SelectionCanceled += Deselect;
+                Selected?.Invoke();
+            }
         }
 
         private void Deselect(CharacterControl commander)
         {
-            commander.Commanded -= SetTarget;
-            commander.SelectionCanceled -= Deselect;
+            _currentCommander.Commanded -= SetTarget;
+            _currentCommander.SelectionCanceled -= Deselect;
+            _currentCommander = null;
             Deselected?.Invoke();
+        }
+
+        protected override void Die()
+        {
+            if (!(_currentCommander is null))
+                Deselect(_currentCommander);
+            base.Die();
         }
     }
 }
