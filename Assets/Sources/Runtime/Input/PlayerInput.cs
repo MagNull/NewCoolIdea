@@ -53,6 +53,33 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Warrior Hotkey"",
+                    ""type"": ""Button"",
+                    ""id"": ""13291bf0-0f21-4907-822d-141b1bb3c525"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Enchanter Hotkey"",
+                    ""type"": ""Button"",
+                    ""id"": ""b5135845-5ed2-4699-8f45-ca7ba7c03ab7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Ranger Hotkey"",
+                    ""type"": ""Button"",
+                    ""id"": ""2b81aeac-a28b-4cad-9f40-6cc095c5cb57"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -88,6 +115,39 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""action"": ""Target Command"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d0abf586-39dd-4807-8d9e-7a218a6dca7c"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Warrior Hotkey"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""991ee4de-fd08-47a7-aee6-7736f81b63d4"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Enchanter Hotkey"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3eb90654-1766-41ab-8987-9def058c278e"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Ranger Hotkey"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -99,6 +159,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         m_Player_SelectCharacter = m_Player.FindAction("Select Character", throwIfNotFound: true);
         m_Player_CancelSelection = m_Player.FindAction("Cancel Selection", throwIfNotFound: true);
         m_Player_TargetCommand = m_Player.FindAction("Target Command", throwIfNotFound: true);
+        m_Player_WarriorHotkey = m_Player.FindAction("Warrior Hotkey", throwIfNotFound: true);
+        m_Player_EnchanterHotkey = m_Player.FindAction("Enchanter Hotkey", throwIfNotFound: true);
+        m_Player_RangerHotkey = m_Player.FindAction("Ranger Hotkey", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -161,6 +224,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_SelectCharacter;
     private readonly InputAction m_Player_CancelSelection;
     private readonly InputAction m_Player_TargetCommand;
+    private readonly InputAction m_Player_WarriorHotkey;
+    private readonly InputAction m_Player_EnchanterHotkey;
+    private readonly InputAction m_Player_RangerHotkey;
     public struct PlayerActions
     {
         private @PlayerInput m_Wrapper;
@@ -168,6 +234,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         public InputAction @SelectCharacter => m_Wrapper.m_Player_SelectCharacter;
         public InputAction @CancelSelection => m_Wrapper.m_Player_CancelSelection;
         public InputAction @TargetCommand => m_Wrapper.m_Player_TargetCommand;
+        public InputAction @WarriorHotkey => m_Wrapper.m_Player_WarriorHotkey;
+        public InputAction @EnchanterHotkey => m_Wrapper.m_Player_EnchanterHotkey;
+        public InputAction @RangerHotkey => m_Wrapper.m_Player_RangerHotkey;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -186,6 +255,15 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @TargetCommand.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTargetCommand;
                 @TargetCommand.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTargetCommand;
                 @TargetCommand.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTargetCommand;
+                @WarriorHotkey.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWarriorHotkey;
+                @WarriorHotkey.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWarriorHotkey;
+                @WarriorHotkey.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWarriorHotkey;
+                @EnchanterHotkey.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEnchanterHotkey;
+                @EnchanterHotkey.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEnchanterHotkey;
+                @EnchanterHotkey.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEnchanterHotkey;
+                @RangerHotkey.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRangerHotkey;
+                @RangerHotkey.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRangerHotkey;
+                @RangerHotkey.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRangerHotkey;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -199,6 +277,15 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @TargetCommand.started += instance.OnTargetCommand;
                 @TargetCommand.performed += instance.OnTargetCommand;
                 @TargetCommand.canceled += instance.OnTargetCommand;
+                @WarriorHotkey.started += instance.OnWarriorHotkey;
+                @WarriorHotkey.performed += instance.OnWarriorHotkey;
+                @WarriorHotkey.canceled += instance.OnWarriorHotkey;
+                @EnchanterHotkey.started += instance.OnEnchanterHotkey;
+                @EnchanterHotkey.performed += instance.OnEnchanterHotkey;
+                @EnchanterHotkey.canceled += instance.OnEnchanterHotkey;
+                @RangerHotkey.started += instance.OnRangerHotkey;
+                @RangerHotkey.performed += instance.OnRangerHotkey;
+                @RangerHotkey.canceled += instance.OnRangerHotkey;
             }
         }
     }
@@ -208,5 +295,8 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         void OnSelectCharacter(InputAction.CallbackContext context);
         void OnCancelSelection(InputAction.CallbackContext context);
         void OnTargetCommand(InputAction.CallbackContext context);
+        void OnWarriorHotkey(InputAction.CallbackContext context);
+        void OnEnchanterHotkey(InputAction.CallbackContext context);
+        void OnRangerHotkey(InputAction.CallbackContext context);
     }
 }

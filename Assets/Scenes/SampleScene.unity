@@ -1473,7 +1473,7 @@ GameObject:
   - component: {fileID: 625316900}
   - component: {fileID: 625316899}
   m_Layer: 0
-  m_Name: Archer
+  m_Name: Rager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2311,7 +2311,7 @@ GameObject:
   - component: {fileID: 816002072}
   - component: {fileID: 816002071}
   m_Layer: 0
-  m_Name: Mage
+  m_Name: Enchanter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2746,8 +2746,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bef6dc0b46fe9354fb57249dd79039c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _factory: {fileID: 1951622997}
-  _bank: {fileID: 726179522}
+  _warriorPresenter: {fileID: 708060032}
+  _enchanterPresenter: {fileID: 816002072}
+  _rangerPresenter: {fileID: 625316900}
 --- !u!1 &880193357
 GameObject:
   m_ObjectHideFlags: 0
