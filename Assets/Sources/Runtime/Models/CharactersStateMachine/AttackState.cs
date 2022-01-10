@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Timers;
-using Sources.Runtime.Models.Characters;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,7 +6,9 @@ namespace Sources.Runtime.Models.CharactersStateMachine
 {
     public class AttackState : State
     {
-        public AttackState(NavMeshAgent navMeshAgent, Func<Character> getTarget, Transformable characterTransformable, float attackDistance, StateMachine stateMachine) : base(navMeshAgent, getTarget, characterTransformable, attackDistance, stateMachine)
+        public AttackState(NavMeshAgent navMeshAgent, Func<Damageable> getTarget, 
+            Transformable characterTransformable, float attackDistance, StateMachine stateMachine) 
+            : base(navMeshAgent, getTarget, characterTransformable, attackDistance, stateMachine)
         {
             
         }
@@ -25,7 +25,7 @@ namespace Sources.Runtime.Models.CharactersStateMachine
 
         public override void LogicUpdate()
         {
-            Character targetCharacter = _getTarget.Invoke();
+            Damageable targetCharacter = _getTarget.Invoke();
             if (!(targetCharacter is null) && targetCharacter.IsAlive)
             {
                 if (Vector3.SqrMagnitude(targetCharacter.Position - _characterTransformable.Position) >

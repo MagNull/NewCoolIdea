@@ -1,7 +1,6 @@
 ﻿using System;
 using Sources.External.QuickOutline.Scripts;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace Sources.Runtime.Models.Characters
 {

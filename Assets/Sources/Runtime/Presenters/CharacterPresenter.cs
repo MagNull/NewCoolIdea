@@ -16,7 +16,6 @@ namespace Sources.Runtime.Presenters
 
         public void AttackTarget()
         {
-            Debug.Log("Attack");
             Model.AttackTarget();   
         }
         
@@ -48,6 +47,5 @@ namespace Sources.Runtime.Presenters
             else if(newState is DieState)
                 _animator.SetTrigger(_dieTrigger);
         }
-        
     }
 }

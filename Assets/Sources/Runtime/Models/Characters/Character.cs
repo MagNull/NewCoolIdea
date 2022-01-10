@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using Sources.Runtime.Models.CharactersStateMachine;
 using UnityEngine;
 using UnityEngine.AI;
@@ -8,26 +7,22 @@ using UnityEngine.AI;
 namespace Sources.Runtime.Models.Characters
 {
     [Serializable]
-    public class Character : Transformable, IUpdatable
+    public class Character : Damageable, IUpdatable, IStateful
     {
-        public Action<State> StateChanged;
-
-        [SerializeField] private Health _health;
         private float _minAttackDistance;
         private float _maxAttackDistance;
-        private NavMeshAgent _navMeshAgent;
-        private Character _targetCharacter;
+        private NavMeshAgent _navMeshAgent;     
+        private Damageable _targetCharacter;
         private StateMachine _stateMachine;
         protected List<Character> _targets;
         
-        public bool IsAlive { get; private set; }
+        public Action<State> StateChanged { get; set; }
+        
 
         public Character(Vector3 position, Quaternion rotation, Health health, 
-            float minAttackDistance, float maxAttackDistance) : base(position, rotation)
+            float minAttackDistance, float maxAttackDistance) : base(position, rotation, health)
         {
-            _health = health;
-            IsAlive = true;
-            _health.Died += Die;
+            Health.Died += Die;
             _minAttackDistance = minAttackDistance;
             _maxAttackDistance = maxAttackDistance;
         }
@@ -42,9 +37,7 @@ namespace Sources.Runtime.Models.Characters
             _stateMachine.Init(states, states[0]);
         }
 
-        public void TakeDamage(int damage) => _health.TakeDamage(damage);
-
-        public void AttackTarget() => _targetCharacter?.TakeDamage(1);//TODO: Define what damage
+        public void AttackTarget() => _targetCharacter?.Health.TakeDamage(1);//TODO: Define what damage
 
         public virtual void Update(float deltaTime)
         {
@@ -60,8 +53,7 @@ namespace Sources.Runtime.Models.Characters
                 _navMeshAgent.SetDestination(targetPos);
                 LookAt(target);
             }
-
-            if (target is Character targetCharacter
+            else if (target is Damageable targetCharacter
                 && targetCharacter != this)
             {
                 _targetCharacter = targetCharacter;
@@ -71,7 +63,7 @@ namespace Sources.Runtime.Models.Characters
         private State[] GetStates()
         {
             var states = new State[4];
-            Character GetTarget() => _targetCharacter;
+            Damageable GetTarget() => _targetCharacter;
             states[0] = new IdleState(_navMeshAgent, GetTarget, this, _minAttackDistance, _stateMachine);
             states[1] = new MoveState(_navMeshAgent, GetTarget, this, _minAttackDistance, _stateMachine);
             states[2] = new AttackState(_navMeshAgent, GetTarget, this, _maxAttackDistance, _stateMachine);
@@ -82,7 +74,6 @@ namespace Sources.Runtime.Models.Characters
 
         protected virtual void Die()
         {
-            IsAlive = false;
             _stateMachine.ChangeState<DieState>(); 
             _navMeshAgent.enabled = false;
         }
@@ -91,7 +82,7 @@ namespace Sources.Runtime.Models.Characters
         {
             _targets = characterBank.Enemies;
             characterBank.Allies.Add(this);
-            _health.Died += () => characterBank.Allies.Remove(this);
+            Health.Died += () => characterBank.Allies.Remove(this);
         }
     }
 }

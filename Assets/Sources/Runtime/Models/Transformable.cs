@@ -7,8 +7,7 @@ namespace Sources.Runtime.Models
     {
         [field: SerializeField] public Vector3 Position { get; private set; }
         [field: SerializeField] public Quaternion Rotation { get; private set; }
-        public Vector3 Forward => Quaternion.Euler(0, Rotation.eulerAngles.y, 0) * Vector3.forward;
-        
+
         public event Action Moved;
         public event Action Rotated;
         public event Action Destroying;
@@ -17,12 +16,6 @@ namespace Sources.Runtime.Models
         {
             Position = position;
             Rotation = rotation;
-        }
-
-        public Vector3 TransformDirection(Vector3 direction)
-        {
-            Quaternion angle = Quaternion.FromToRotation(Vector3.forward, Forward);
-            return angle * direction;
         }
 
         public void LookAt(object target)

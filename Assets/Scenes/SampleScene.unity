@@ -1516,8 +1516,6 @@ MonoBehaviour:
   _model:
     <Position>k__BackingField: {x: 0, y: 0, z: 0}
     <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
-    _health:
-      _value: 10
 --- !u!114 &625316901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2016,8 +2014,6 @@ MonoBehaviour:
   _model:
     <Position>k__BackingField: {x: 0, y: 0, z: 0}
     <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
-    _health:
-      _value: 2
 --- !u!114 &708060033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2092,7 +2088,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 708060030}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.02, y: 0.0000009536743, z: 6.37}
+  m_LocalPosition: {x: -7.76, y: 0.0000009536743, z: -10.86}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 1964819781}
@@ -2358,8 +2354,6 @@ MonoBehaviour:
   _model:
     <Position>k__BackingField: {x: 0, y: 0, z: 0}
     <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
-    _health:
-      _value: 10
 --- !u!114 &816002073
 MonoBehaviour:
   m_ObjectHideFlags: 0

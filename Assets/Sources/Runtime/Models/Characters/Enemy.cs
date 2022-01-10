@@ -15,6 +15,7 @@ namespace Sources.Runtime.Models.Characters
         {
             _targets = characterBank.Allies;
             characterBank.Enemies.Add(this);
+            Health.Died += () => characterBank.Enemies.Remove(this);
         }
     }
 }

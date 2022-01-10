@@ -7,23 +7,25 @@ namespace Sources.Runtime.Models.CharactersStateMachine
 {
     public class IdleState : State
     {
-        public IdleState(NavMeshAgent navMeshAgent, Func<Character> getTarget, Transformable characterTransformable, float attackDistance, StateMachine stateMachine) : base(navMeshAgent, getTarget, characterTransformable, attackDistance, stateMachine)
+        public IdleState(NavMeshAgent navMeshAgent, Func<Damageable> getTarget, 
+            Transformable characterTransformable, float attackDistance, StateMachine stateMachine) 
+            : base(navMeshAgent, getTarget, characterTransformable, attackDistance, stateMachine)
         {
         }
         
         public override void Enter()
         {
-            //Debug.Log( _navMeshAgent.gameObject.name+ " enter Idle");
+            
         }
 
         public override void Exit()
         {
-            //Debug.Log( _navMeshAgent.gameObject.name + " exit Idle");
+            
         }
 
         public override void LogicUpdate()
         {
-            Character targetCharacter = _getTarget.Invoke();
+            Damageable targetCharacter = _getTarget.Invoke();
             if (targetCharacter is null)
             {
                 if(_navMeshAgent.remainingDistance > 0.3f)

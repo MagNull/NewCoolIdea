@@ -1,5 +1,4 @@
 ﻿using System;
-using Sources.Runtime.Models.Characters;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,7 +6,7 @@ namespace Sources.Runtime.Models.CharactersStateMachine
 {
     public class DieState : State
     {
-        public DieState(NavMeshAgent navMeshAgent, Func<Character> getTarget, Transformable characterTransformable, float attackDistance, StateMachine stateMachine) : base(navMeshAgent, getTarget, characterTransformable, attackDistance, stateMachine)
+        public DieState(NavMeshAgent navMeshAgent, Func<Damageable> getTarget, Transformable characterTransformable, float attackDistance, StateMachine stateMachine) : base(navMeshAgent, getTarget, characterTransformable, attackDistance, stateMachine)
         {
         }
 

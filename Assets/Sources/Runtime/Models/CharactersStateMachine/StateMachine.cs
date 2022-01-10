@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Sources.Runtime.Models.Characters;
+﻿using System.Linq;
 
 namespace Sources.Runtime.Models.CharactersStateMachine
 {
@@ -8,9 +6,9 @@ namespace Sources.Runtime.Models.CharactersStateMachine
     {
         private State[] _states;
         private State _currentState;
-        private Character _character;
+        private IStateful _character;
 
-        public StateMachine(Character character)
+        public StateMachine(IStateful character)
         {
             _character = character;
         }
