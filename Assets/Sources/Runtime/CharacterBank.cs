@@ -6,7 +6,25 @@ namespace Sources.Runtime
 {
     public class CharacterBank : MonoBehaviour
     {
-        public List<Character> Allies = new List<Character>();
-        public List<Character> Enemies = new List<Character>();
+        private List<Character> _allies = new List<Character>();
+        private List<Character> _enemies = new List<Character>();
+
+        public IReadOnlyList<Character> Allies => _allies;
+
+        public IReadOnlyList<Character> Enemies => _enemies;
+
+        public void AddCharacter(Character character)
+        {
+            if (character is Enemy enemy)
+            {
+                _enemies.Add(enemy);
+                enemy.Health.Died += () => _enemies.Remove(enemy);
+            }
+            else
+            {
+                _allies.Add(character);
+                character.Health.Died += () => _allies.Remove(character);
+            }
+        }
     }
 }

@@ -6,7 +6,7 @@ namespace Sources.Runtime.Models.FindTargetStrategies
 {
     public class FindNearestStrategy : IFindTargetStrategy
     {
-        public Character GetTarget(List<Character> characters, Character originCharacter)
+        public Character GetTarget(IReadOnlyList<Character> characters, Character originCharacter)
         {
             var nearest = characters[0];
             foreach (var character in characters)

@@ -5,17 +5,16 @@ namespace Sources.Runtime.Models.Characters
     public class Enemy : AutoTargetCharacter
     {
         public Enemy(Vector3 position, Quaternion rotation, 
-            Health health, float minAttackDistance,float maxAttackDistance) 
-            : base(position, rotation, health, minAttackDistance, maxAttackDistance)
+            Health health, CharacterBank characterBank, float minAttackDistance, float maxAttackDistance) 
+            : base(position, rotation, health, characterBank, minAttackDistance, maxAttackDistance)
         {
             
         }
 
-        protected override void DefineTeam(CharacterBank characterBank)
+        protected override void DefineTeam()
         {
-            _targets = characterBank.Allies;
-            characterBank.Enemies.Add(this);
-            Health.Died += () => characterBank.Enemies.Remove(this);
+            _characterBank.AddCharacter(this);
+            _targets = _characterBank.Allies;
         }
     }
 }

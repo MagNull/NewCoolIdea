@@ -11,9 +11,9 @@ namespace Sources.Runtime.Models.Characters
 
         private CharacterControl _currentCommander;
 
-        public CommandableCharacter(Vector3 position, Quaternion rotation, Health health, 
+        public CommandableCharacter(Vector3 position, Quaternion rotation, Health health, CharacterBank characterBank, 
             Outline outline, float minAttackDistance, float maxAttackDistance) 
-            : base(position, rotation, health, minAttackDistance, maxAttackDistance)
+            : base(position, rotation, health, characterBank, minAttackDistance, maxAttackDistance)
         {
             Selected += () => outline.enabled = true;
             Deselected += () => outline.enabled = false;

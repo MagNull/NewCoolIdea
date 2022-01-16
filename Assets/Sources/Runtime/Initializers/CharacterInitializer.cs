@@ -12,22 +12,19 @@ namespace Sources.Runtime.Composite_Roots
         typeof(CharacterPresenter),
         typeof(Outline))]
     [RequireComponent(typeof(Animator))]
-    public class CharacterCompositeRoot : MonoBehaviour
+    public class CharacterInitializer : MonoBehaviour
     {
         [SerializeField] private CharacterBank _bank;
         [SerializeField] private float _minAttackDistance = .5f;
         [SerializeField] private float _maxAttackDistance = .5f;
-        private NavMeshAgent _navMeshAgent;
         private CharacterPresenter _presenter;
         private Character _character;
 
         private void Awake()
         {
-            _navMeshAgent = GetComponent<NavMeshAgent>();
             _presenter = GetComponent<CharacterPresenter>();
             _character = new CommandableCharacter(transform.position, transform.rotation, 
-                new Health(5), GetComponent<Outline>(), _minAttackDistance, _maxAttackDistance);
-            _character.Init(_navMeshAgent, _bank);
+                new Health(5), _bank, GetComponent<Outline>(), _minAttackDistance, _maxAttackDistance);
             _presenter.Init(_character);
         }
     }

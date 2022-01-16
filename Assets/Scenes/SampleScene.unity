@@ -1516,6 +1516,7 @@ MonoBehaviour:
   _model:
     <Position>k__BackingField: {x: 0, y: 0, z: 0}
     <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
+  _factory: {fileID: 0}
 --- !u!114 &625316901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1547,8 +1548,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bank: {fileID: 726179522}
-  _minAttackDistance: 2
-  _maxAttackDistance: 3
+  _minAttackDistance: 10
+  _maxAttackDistance: 12
 --- !u!136 &625316903
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1590,7 +1591,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 625316898}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.17, y: 0.0000009536743, z: 11.300169}
+  m_LocalPosition: {x: 8, y: 0.0000009536743, z: -10}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 1201031978}
@@ -2014,6 +2015,7 @@ MonoBehaviour:
   _model:
     <Position>k__BackingField: {x: 0, y: 0, z: 0}
     <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
+  _factory: {fileID: 0}
 --- !u!114 &708060033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2088,7 +2090,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 708060030}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.76, y: 0.0000009536743, z: -10.86}
+  m_LocalPosition: {x: -8, y: 0.0000009536743, z: -10}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 1964819781}
@@ -2354,6 +2356,7 @@ MonoBehaviour:
   _model:
     <Position>k__BackingField: {x: 0, y: 0, z: 0}
     <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
+  _factory: {fileID: 0}
 --- !u!114 &816002073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2385,8 +2388,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bank: {fileID: 726179522}
-  _minAttackDistance: 2
-  _maxAttackDistance: 3
+  _minAttackDistance: 8
+  _maxAttackDistance: 10
 --- !u!136 &816002075
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2428,7 +2431,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 816002070}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.883466, y: 0.0000009536743, z: -10.91}
+  m_LocalPosition: {x: 0, y: 0.0000009536743, z: 11.19}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 1107772894}
@@ -2874,6 +2877,36 @@ Transform:
   - {fileID: 367989739}
   m_Father: {fileID: 129215705}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &939867011
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 939867012}
+  m_Layer: 0
+  m_Name: Projectile Factory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &939867012
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 939867011}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.9461136, y: 1.9881061, z: 4.9728584}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &940098059
 GameObject:
@@ -3350,7 +3383,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1052024242
 Transform:
   m_ObjectHideFlags: 0
@@ -3377,10 +3410,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11b11f9a14ec2f14cba9662a324b7f1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyFactory: {fileID: 1951622997}
+  _factory: {fileID: 1951622997}
   _waveAreaSize: {x: 50, y: 50}
   _enemyCount: 1
-  _waveTestInterval: 1
+  _waveTestInterval: 5
   _healthValue: 1
   _minAttackDistance: 2
   _maxAttackDistance: 3
@@ -3495,7 +3528,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 41680dad0f0243748b4e228f49a2e3c4, type: 2}
+  - {fileID: 2100000, guid: 673443bdcb7bf2f47be93ce60e68966f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3814,7 +3847,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 41680dad0f0243748b4e228f49a2e3c4, type: 2}
+  - {fileID: 2100000, guid: f685a57b9da560a448bb95374a652f90, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5695,6 +5728,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _testEnemyPrefab: {fileID: 2276440897329708270, guid: a8b0922d1cd2ed14191a7861a36ec9b7, type: 3}
+  _projectilePresenterPrefab: {fileID: 0}
   _characterBank: {fileID: 726179522}
 --- !u!4 &1951622998
 Transform:
@@ -5760,7 +5794,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 41680dad0f0243748b4e228f49a2e3c4, type: 2}
+  - {fileID: 2100000, guid: 98bc34ddef060be4ea47e99161e9df8f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

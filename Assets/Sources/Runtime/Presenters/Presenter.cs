@@ -11,7 +11,7 @@ namespace Sources.Runtime.Presenters
         [SerializeField] private T _model;
         private IUpdatable _updatable;
 
-        public void Init(T model)
+        public virtual void Init(T model)
         {
             _model = model;
             enabled = true;
@@ -54,7 +54,7 @@ namespace Sources.Runtime.Presenters
 
         private void Update() => _updatable?.Update(Time.deltaTime);
 
-        protected void DestroyCompose()
+        private void DestroyCompose()
         {
             _model.Destroy();
         }

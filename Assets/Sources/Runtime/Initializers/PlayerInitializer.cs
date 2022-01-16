@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Sources.Runtime.Composite_Roots
 {
-    public class PlayerCompositeRoot : MonoBehaviour
+    public class PlayerInitializer : MonoBehaviour
     {
         [SerializeField] private CharacterPresenter _warriorPresenter;
         [SerializeField] private CharacterPresenter _enchanterPresenter;

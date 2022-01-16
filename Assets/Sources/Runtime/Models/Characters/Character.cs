@@ -14,22 +14,14 @@ namespace Sources.Runtime.Models.Characters
         private NavMeshAgent _navMeshAgent;     
         private Damageable _targetCharacter;
         private StateMachine _stateMachine;
-        protected List<Character> _targets;
-        
+        protected CharacterBank _characterBank;
+        protected IReadOnlyList<Character> _targets;
+
         public Action<State> StateChanged { get; set; }
-        
 
-        public Character(Vector3 position, Quaternion rotation, Health health, 
-            float minAttackDistance, float maxAttackDistance) : base(position, rotation, health)
+        public void Init(NavMeshAgent navMeshAgent)
         {
-            Health.Died += Die;
-            _minAttackDistance = minAttackDistance;
-            _maxAttackDistance = maxAttackDistance;
-        }
-
-        public void Init(NavMeshAgent navMeshAgent, CharacterBank bank)
-        {
-            DefineTeam(bank);
+            DefineTeam();
             _navMeshAgent = navMeshAgent;
             _navMeshAgent.updateRotation = false;
             _stateMachine = new StateMachine(this);
@@ -37,14 +29,27 @@ namespace Sources.Runtime.Models.Characters
             _stateMachine.Init(states, states[0]);
         }
 
-        public void AttackTarget() => _targetCharacter?.Health.TakeDamage(1);//TODO: Define what damage
+        public Character(Vector3 position, Quaternion rotation, Health health, CharacterBank characterBank, 
+            float minAttackDistance, float maxAttackDistance) : base(position, rotation, health)
+        {
+            _characterBank = characterBank;
+            Health.Died += Die;
+            _minAttackDistance = minAttackDistance;
+            _maxAttackDistance = maxAttackDistance;
+            
+        }
+
+        public void AttackTarget()
+        {
+            _targetCharacter?.Health.TakeDamage(1);//TODO: Define what damage
+        }
 
         public virtual void Update(float deltaTime)
         {
             MoveTo(_navMeshAgent.nextPosition);
             _stateMachine.Update(deltaTime);
         }
-        
+
         protected void SetTarget(object target)
         {
             _targetCharacter = null;
@@ -74,15 +79,14 @@ namespace Sources.Runtime.Models.Characters
 
         protected virtual void Die()
         {
-            _stateMachine.ChangeState<DieState>(); 
+            _stateMachine.ChangeState<DieState>();
             _navMeshAgent.enabled = false;
         }
         
-        protected virtual void DefineTeam(CharacterBank characterBank)
+        protected virtual void DefineTeam()
         {
-            _targets = characterBank.Enemies;
-            characterBank.Allies.Add(this);
-            Health.Died += () => characterBank.Allies.Remove(this);
+            _characterBank.AddCharacter(this);
+            _targets = _characterBank.Allies;
         }
     }
 }

@@ -9,7 +9,8 @@ namespace Sources.Runtime
 {
     public class EnemyWaveSimulation : MonoBehaviour
     {
-        [SerializeField] private EnemyPresentersFactory _enemyFactory;
+        [SerializeField] private Factory _factory;
+        [SerializeField] private CharacterBank _characterBank;
         
         [Header("Wave Configs")]
         [SerializeField] private Vector2 _waveAreaSize;
@@ -40,9 +41,9 @@ namespace Sources.Runtime
             for (var i = 0; i < _enemyCount; i++)
             {
                 Vector3 position = GetRandomAreaPosition();
-                var model = new Enemy(position, Quaternion.identity, new Health(_healthValue),
+                var model = new Enemy(position, Quaternion.identity, new Health(_healthValue), _characterBank,
                     _minAttackDistance, _maxAttackDistance); //TODO: Change
-                _enemyFactory.Create(model);
+                _factory.Create(model);
             }
         }
 
