@@ -10,7 +10,7 @@ namespace Sources.Runtime.Presenters
     [RequireComponent(typeof(Animator))]
     public class CharacterPresenter : Presenter<Character>
     {
-        [SerializeField] private Factory _factory;
+        [SerializeField] private PresentersFactory _presentersFactory;
         private Animator _animator;
         private readonly int _attackTrigger = Animator.StringToHash("Attack");
         private readonly int _moveTrigger = Animator.StringToHash("Move");
