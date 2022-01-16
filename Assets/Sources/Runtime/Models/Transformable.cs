@@ -5,8 +5,8 @@ namespace Sources.Runtime.Models
 {
     public abstract class Transformable
     {
-        [field: SerializeField] public Vector3 Position { get; private set; }
-        [field: SerializeField] public Quaternion Rotation { get; private set; }
+        [field: SerializeField] public virtual Vector3 Position { get; private set; }
+        [field: SerializeField] public virtual Quaternion Rotation { get; private set; }
 
         public event Action Moved;
         public event Action Rotated;

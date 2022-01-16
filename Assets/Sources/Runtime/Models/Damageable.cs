@@ -6,13 +6,13 @@ namespace Sources.Runtime.Models
     [Serializable]
     public abstract class Damageable : Transformable
     {
-        public Health Health { get; }
-        public bool IsAlive { get; private set; }
+        [field: SerializeField] public Health Health { get; private set; }
+        [field: SerializeField] public bool IsAlive { get; private set; }
 
-        protected Damageable(Vector3 position, Quaternion rotation, Health health) : base(position, rotation)
+        protected Damageable(Vector3 position, Quaternion rotation, int healthValue) : base(position, rotation)
         {
             IsAlive = true;
-            Health = health;
+            Health = new Health(healthValue);
             Health.Died += () => IsAlive = false;
         }
     }

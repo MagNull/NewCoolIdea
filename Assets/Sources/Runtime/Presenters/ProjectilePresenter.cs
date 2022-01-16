@@ -1,4 +1,5 @@
 ﻿using Sources.Runtime.Models;
+using Sources.Runtime.Models.Characters;
 using UnityEngine;
 
 namespace Sources.Runtime.Presenters
@@ -7,7 +8,7 @@ namespace Sources.Runtime.Presenters
     {
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out Presenter<Transformable> presenter))
+            if (other.TryGetComponent(out Presenter<Character> presenter))
                 Model.OnCollision(presenter.Model);
         }
     }

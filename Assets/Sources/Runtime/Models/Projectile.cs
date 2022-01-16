@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using Sources.Runtime.Models.Characters;
+using UnityEngine;
 
 namespace Sources.Runtime.Models
 {
@@ -7,7 +9,7 @@ namespace Sources.Runtime.Models
         private int _damage;
         private float _speed;
         private Damageable _target;
-        
+
         public Projectile(Vector3 position, Quaternion rotation, 
             Damageable target, float speed, int damage) 
             : base(position, rotation)
@@ -19,15 +21,23 @@ namespace Sources.Runtime.Models
 
         public void Update(float deltaTime)
         {
-            Vector3 newPosition = 
-                Vector3.MoveTowards(Position, _target.Position, _speed * deltaTime);
-            MoveTo(newPosition);
+            if (_target is null)
+            {
+                Destroy();
+            }
+            else
+            {
+                Vector3 newPosition = 
+                    Vector3.MoveTowards(Position, _target.Position, _speed * deltaTime);
+                MoveTo(newPosition);
+            }
+            
         }
 
-        public void OnCollision(Transformable other)
+        public void OnCollision(Character character)
         {
-            if(other is Damageable damageable)
-                damageable.Health.TakeDamage(_damage);   
+            character.Health.TakeDamage(_damage);
+            Destroy();
         }
     }
 }

@@ -1,16 +1,15 @@
-﻿using System;
-using Sources.Runtime.Models;
-using Sources.Runtime.Models.Characters;
+﻿using Sources.Runtime.Models.Characters;
 using Sources.Runtime.Models.CharactersStateMachine;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace Sources.Runtime.Presenters
 {
+    [SelectionBase]
     [RequireComponent(typeof(Animator))]
     public class CharacterPresenter : Presenter<Character>
     {
-        [SerializeField] private PresentersFactory _presentersFactory;
+        [SerializeField] private ProjectilesFactory _factory;
         private Animator _animator;
         private readonly int _attackTrigger = Animator.StringToHash("Attack");
         private readonly int _moveTrigger = Animator.StringToHash("Move");

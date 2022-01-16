@@ -1,5 +1,4 @@
-﻿using System;
-using Sources.Runtime.Models;
+﻿using Sources.Runtime.Models;
 using UnityEngine;
 
 namespace Sources.Runtime.Presenters

@@ -5,6 +5,6 @@ namespace Sources.Runtime.Models.FindTargetStrategies
 {
     public interface IFindTargetStrategy
     {
-        Character GetTarget(IReadOnlyList<Character> characters, Character originCharacter);
+        Damageable GetTarget(IReadOnlyList<Damageable> characters, Character originCharacter);
     }
 }

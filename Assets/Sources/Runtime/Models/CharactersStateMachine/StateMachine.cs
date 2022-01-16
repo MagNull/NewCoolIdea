@@ -1,17 +1,15 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using UnityEngine;
 
 namespace Sources.Runtime.Models.CharactersStateMachine
 {
     public class StateMachine : IUpdatable
     {
+        public event Action<State> StateChanged;
         private State[] _states;
         private State _currentState;
-        private IStateful _character;
-
-        public StateMachine(IStateful character)
-        {
-            _character = character;
-        }
+        
         public void Init(State[] states, State startState)
         {
             _states = states;
@@ -24,7 +22,7 @@ namespace Sources.Runtime.Models.CharactersStateMachine
 
             _currentState = _states.FirstOrDefault(state => state is T);
             _currentState.Enter();
-            _character.StateChanged?.Invoke(_currentState);
+            StateChanged?.Invoke(_currentState);
         }
 
         public void Update(float deltaTime)

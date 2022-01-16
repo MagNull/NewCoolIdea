@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Sources.Runtime.Models;
 using Sources.Runtime.Models.Characters;
 using UnityEngine;
 
@@ -9,9 +10,9 @@ namespace Sources.Runtime
         private List<Character> _allies = new List<Character>();
         private List<Character> _enemies = new List<Character>();
 
-        public IReadOnlyList<Character> Allies => _allies;
+        public IReadOnlyList<Damageable> Allies => _allies;
 
-        public IReadOnlyList<Character> Enemies => _enemies;
+        public IReadOnlyList<Damageable> Enemies => _enemies;
 
         public void AddCharacter(Character character)
         {

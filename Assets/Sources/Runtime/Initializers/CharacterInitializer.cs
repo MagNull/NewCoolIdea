@@ -1,5 +1,5 @@
-﻿using Sources.External.QuickOutline.Scripts;
-using Sources.Runtime.Models;
+﻿using System;
+using Sources.External.QuickOutline.Scripts;
 using Sources.Runtime.Models.Characters;
 using Sources.Runtime.Presenters;
 using UnityEngine;
@@ -14,6 +14,9 @@ namespace Sources.Runtime.Composite_Roots
     [RequireComponent(typeof(Animator))]
     public class CharacterInitializer : MonoBehaviour
     {
+        [SerializeField] private bool _isRange;
+        [SerializeField] private Transform _projectileOrigin;
+        [SerializeField] private ProjectilesFactory _projectilesFactory;
         [SerializeField] private CharacterBank _bank;
         [SerializeField] private float _minAttackDistance = .5f;
         [SerializeField] private float _maxAttackDistance = .5f;
@@ -23,8 +26,13 @@ namespace Sources.Runtime.Composite_Roots
         private void Awake()
         {
             _presenter = GetComponent<CharacterPresenter>();
-            _character = new CommandableCharacter(transform.position, transform.rotation, 
-                new Health(5), _bank, GetComponent<Outline>(), _minAttackDistance, _maxAttackDistance);
+            
+            _character =  _isRange ? new RangeAttackCharacter(transform.position, transform.rotation, 
+                5, _bank, _minAttackDistance, _maxAttackDistance, _projectilesFactory, _projectileOrigin)
+                : new Character(transform.position, transform.rotation, 
+                    5, _bank, _minAttackDistance, _maxAttackDistance);
+            
+            _character = new CommandableCharacter(_character, _bank, GetComponent<Outline>());
             _presenter.Init(_character);
         }
     }

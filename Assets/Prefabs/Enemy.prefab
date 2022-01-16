@@ -1135,8 +1135,6 @@ MonoBehaviour:
   _model:
     <Position>k__BackingField: {x: 0, y: 0, z: 0}
     <Rotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
-    _health:
-      _value: 10
 --- !u!195 &2685690005646386127
 NavMeshAgent:
   m_ObjectHideFlags: 0

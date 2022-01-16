@@ -9,37 +9,40 @@ namespace Sources.Runtime.Models.Characters
     [Serializable]
     public class Character : Damageable, IUpdatable, IStateful
     {
+        protected CharacterBank _characterBank;
+        protected IReadOnlyList<Damageable> _targets;
         private float _minAttackDistance;
         private float _maxAttackDistance;
-        private NavMeshAgent _navMeshAgent;     
+        private NavMeshAgent _navMeshAgent;
         private Damageable _targetCharacter;
         private StateMachine _stateMachine;
-        protected CharacterBank _characterBank;
-        protected IReadOnlyList<Character> _targets;
 
-        public Action<State> StateChanged { get; set; }
+        public virtual Action<State> StateChanged { get; set; }
 
-        public void Init(NavMeshAgent navMeshAgent)
-        {
-            DefineTeam();
-            _navMeshAgent = navMeshAgent;
-            _navMeshAgent.updateRotation = false;
-            _stateMachine = new StateMachine(this);
-            var states = GetStates();
-            _stateMachine.Init(states, states[0]);
-        }
+        public float MinAttackDistance => _minAttackDistance;
+        public float MaxAttackDistance => _maxAttackDistance;
 
-        public Character(Vector3 position, Quaternion rotation, Health health, CharacterBank characterBank, 
-            float minAttackDistance, float maxAttackDistance) : base(position, rotation, health)
+        public Character(Vector3 position, Quaternion rotation, int healthValue, CharacterBank characterBank, 
+            float minAttackDistance, float maxAttackDistance) : base(position, rotation, healthValue)
         {
             _characterBank = characterBank;
             Health.Died += Die;
             _minAttackDistance = minAttackDistance;
             _maxAttackDistance = maxAttackDistance;
-            
         }
 
-        public void AttackTarget()
+        public virtual void Init(NavMeshAgent navMeshAgent)
+        {
+            DefineTeam();
+            _navMeshAgent = navMeshAgent;
+            _navMeshAgent.updateRotation = false;
+            _stateMachine = new StateMachine();
+            var states = GetStates();
+            _stateMachine.StateChanged += StateChanged;
+            _stateMachine.Init(states, states[0]);
+        }
+
+        public virtual void AttackTarget()
         {
             _targetCharacter?.Health.TakeDamage(1);//TODO: Define what damage
         }
@@ -50,7 +53,7 @@ namespace Sources.Runtime.Models.Characters
             _stateMachine.Update(deltaTime);
         }
 
-        protected void SetTarget(object target)
+        public virtual void SetTarget(object target)
         {
             _targetCharacter = null;
             if (target is Vector3 targetPos)
@@ -59,34 +62,35 @@ namespace Sources.Runtime.Models.Characters
                 LookAt(target);
             }
             else if (target is Damageable targetCharacter
-                && targetCharacter != this)
+                && targetCharacter.Position != Position)
             {
                 _targetCharacter = targetCharacter;
             }
         }
-        
-        private State[] GetStates()
-        {
-            var states = new State[4];
-            Damageable GetTarget() => _targetCharacter;
-            states[0] = new IdleState(_navMeshAgent, GetTarget, this, _minAttackDistance, _stateMachine);
-            states[1] = new MoveState(_navMeshAgent, GetTarget, this, _minAttackDistance, _stateMachine);
-            states[2] = new AttackState(_navMeshAgent, GetTarget, this, _maxAttackDistance, _stateMachine);
-            states[3] = new DieState(_navMeshAgent, GetTarget, this, _minAttackDistance, _stateMachine);
 
-            return states;
-        }
-
-        protected virtual void Die()
+        public virtual void Die()
         {
             _stateMachine.ChangeState<DieState>();
             _navMeshAgent.enabled = false;
         }
-        
+
+        protected Damageable GetTarget() => _targetCharacter;
+
         protected virtual void DefineTeam()
         {
             _characterBank.AddCharacter(this);
             _targets = _characterBank.Allies;
+        }
+
+        private State[] GetStates()
+        {
+            var states = new State[4];
+            states[0] = new IdleState(_navMeshAgent, GetTarget, this, MinAttackDistance, _stateMachine);
+            states[1] = new MoveState(_navMeshAgent, GetTarget, this, MinAttackDistance, _stateMachine);
+            states[2] = new AttackState(_navMeshAgent, GetTarget, this, MaxAttackDistance, _stateMachine);
+            states[3] = new DieState(_navMeshAgent, GetTarget, this, MinAttackDistance, _stateMachine);
+
+            return states;
         }
     }
 }

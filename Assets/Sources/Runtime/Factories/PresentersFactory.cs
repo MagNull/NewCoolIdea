@@ -3,14 +3,14 @@ using UnityEngine;
 
 namespace Sources.Runtime.Presenters
 {
-    public abstract class PresentersFactory : MonoBehaviour
+    public abstract class PresentersFactory<T> : MonoBehaviour where T : Transformable
     {
-        public void Create(Transformable model)
+        public void Create(T model)
         {
             var presenter = Instantiate(GetPrefab(model), model.Position, model.Rotation);
             presenter.Init(model);
         }
 
-        protected abstract Presenter<Transformable> GetPrefab(Transformable model);
+        protected abstract Presenter<T> GetPrefab(T model);
     }
 }
