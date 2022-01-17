@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Sources.Runtime.Models.FindTargetStrategies;
+﻿using Sources.Runtime.Models.FindTargetStrategies;
 using UnityEngine;
 
 namespace Sources.Runtime.Models.Characters

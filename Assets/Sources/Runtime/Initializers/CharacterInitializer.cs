@@ -1,5 +1,4 @@
-﻿using System;
-using Sources.External.QuickOutline.Scripts;
+﻿using Sources.External.QuickOutline.Scripts;
 using Sources.Runtime.Models.Characters;
 using Sources.Runtime.Presenters;
 using UnityEngine;
@@ -14,12 +13,21 @@ namespace Sources.Runtime.Composite_Roots
     [RequireComponent(typeof(Animator))]
     public class CharacterInitializer : MonoBehaviour
     {
-        [SerializeField] private bool _isRange;
-        [SerializeField] private Transform _projectileOrigin;
-        [SerializeField] private ProjectilesFactory _projectilesFactory;
-        [SerializeField] private CharacterBank _bank;
-        [SerializeField] private float _minAttackDistance = .5f;
-        [SerializeField] private float _maxAttackDistance = .5f;
+        [SerializeField] 
+        private bool _isRange;
+        [SerializeField] 
+        private Transform _projectileOrigin;
+        [SerializeField] 
+        private ProjectilesFactory _projectilesFactory;
+        
+        [SerializeField] 
+        private CharacterBank _bank;
+        [SerializeField] 
+        private float _minAttackDistance = .5f;
+        [SerializeField] 
+        private float _maxAttackDistance = .5f;
+        [SerializeField] 
+        private int _startHealth = 5;
         private CharacterPresenter _presenter;
         private Character _character;
 
@@ -28,9 +36,9 @@ namespace Sources.Runtime.Composite_Roots
             _presenter = GetComponent<CharacterPresenter>();
             
             _character =  _isRange ? new RangeAttackCharacter(transform.position, transform.rotation, 
-                5, _bank, _minAttackDistance, _maxAttackDistance, _projectilesFactory, _projectileOrigin)
+                    _startHealth, _bank, _minAttackDistance, _maxAttackDistance, _projectilesFactory, _projectileOrigin)
                 : new Character(transform.position, transform.rotation, 
-                    5, _bank, _minAttackDistance, _maxAttackDistance);
+                    _startHealth, _bank, _minAttackDistance, _maxAttackDistance);
             
             _character = new CommandableCharacter(_character, _bank, GetComponent<Outline>());
             _presenter.Init(_character);

@@ -29,6 +29,7 @@ namespace Sources.Runtime.Models
             {
                 Vector3 newPosition = 
                     Vector3.MoveTowards(Position, _target.Position, _speed * deltaTime);
+                newPosition.y = Position.y;
                 MoveTo(newPosition);
             }
             

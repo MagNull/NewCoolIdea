@@ -1,13 +1,11 @@
 ﻿using System;
-using UnityEngine;
 
 namespace Sources.Runtime.Models
 {
-    [Serializable]
     public class Health
     {
         public event Action Died;
-        [SerializeField] private int _value = 10;
+        private int _value;
 
         public Health(int value)
         {
@@ -18,7 +16,7 @@ namespace Sources.Runtime.Models
 
         public void TakeDamage(int damage)
         {
-            _value = Value - damage;
+            _value -= damage;
             if(Value <= 0)
                 Died?.Invoke();
         }

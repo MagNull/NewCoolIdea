@@ -7,7 +7,8 @@ namespace Sources.Runtime.Presenters
     {
         public T Model => _model;
         
-        [SerializeField] private T _model;
+        [SerializeField] 
+        private T _model;
         private IUpdatable _updatable;
 
         public virtual void Init(T model)

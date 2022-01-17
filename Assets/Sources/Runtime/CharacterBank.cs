@@ -7,7 +7,9 @@ namespace Sources.Runtime
 {
     public class CharacterBank : MonoBehaviour
     {
+        [SerializeField] 
         private List<Character> _allies = new List<Character>();
+        [SerializeField] 
         private List<Character> _enemies = new List<Character>();
 
         public IReadOnlyList<Damageable> Allies => _allies;

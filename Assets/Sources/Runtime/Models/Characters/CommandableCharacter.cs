@@ -1,15 +1,12 @@
 ﻿using System;
 using Sources.External.QuickOutline.Scripts;
-using Sources.Runtime.Models.CharactersStateMachine;
-using UnityEngine;
-using UnityEngine.AI;
 
 namespace Sources.Runtime.Models.Characters
 {
     public class CommandableCharacter : CharacterDecorator
     {
-        public Action Selected;
-        public Action Deselected;
+        public event Action Selected;
+        public event Action Deselected;
 
         private CharacterControl _currentCommander;
 
@@ -18,6 +15,11 @@ namespace Sources.Runtime.Models.Characters
         {
             Selected += () => outline.enabled = true;
             Deselected += () => outline.enabled = false;
+            _baseCharacter.Health.Died += () =>
+            {
+                if (!(_currentCommander is null))
+                    Deselect(_currentCommander);
+            };
         }
         
         public void Select(CharacterControl commander)
@@ -29,13 +31,6 @@ namespace Sources.Runtime.Models.Characters
                 _currentCommander.SelectionCanceled += Deselect;
                 Selected?.Invoke();
             }
-        }
-
-        public override void Die()
-        {
-            if (!(_currentCommander is null))
-                Deselect(_currentCommander);
-            _baseCharacter.Die();
         }
 
         private void Deselect(CharacterControl commander)

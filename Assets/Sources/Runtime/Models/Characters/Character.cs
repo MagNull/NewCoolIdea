@@ -9,6 +9,8 @@ namespace Sources.Runtime.Models.Characters
     [Serializable]
     public class Character : Damageable, IUpdatable, IStateful
     {
+        public virtual event Action<State> StateChanged;
+        
         protected CharacterBank _characterBank;
         protected IReadOnlyList<Damageable> _targets;
         private float _minAttackDistance;
@@ -17,8 +19,6 @@ namespace Sources.Runtime.Models.Characters
         private Damageable _targetCharacter;
         private StateMachine _stateMachine;
 
-        public virtual Action<State> StateChanged { get; set; }
-
         public float MinAttackDistance => _minAttackDistance;
         public float MaxAttackDistance => _maxAttackDistance;
 
@@ -26,7 +26,6 @@ namespace Sources.Runtime.Models.Characters
             float minAttackDistance, float maxAttackDistance) : base(position, rotation, healthValue)
         {
             _characterBank = characterBank;
-            Health.Died += Die;
             _minAttackDistance = minAttackDistance;
             _maxAttackDistance = maxAttackDistance;
         }
@@ -68,8 +67,9 @@ namespace Sources.Runtime.Models.Characters
             }
         }
 
-        public virtual void Die()
+        public override void Die()
         {
+            base.Die();
             _stateMachine.ChangeState<DieState>();
             _navMeshAgent.enabled = false;
         }

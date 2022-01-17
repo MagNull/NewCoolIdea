@@ -1,5 +1,4 @@
 using System.Collections;
-using Sources.Runtime.Models;
 using Sources.Runtime.Models.Characters;
 using Sources.Runtime.Presenters;
 using UnityEngine;
@@ -9,18 +8,26 @@ namespace Sources.Runtime
 {
     public class EnemyWaveSimulation : MonoBehaviour
     {
-        [SerializeField] private EnemyPresentersFactory _presentersFactory;
-        [SerializeField] private CharacterBank _characterBank;
+        [SerializeField] 
+        private EnemyPresentersFactory _presentersFactory;
+        [SerializeField] 
+        private CharacterBank _characterBank;
         
         [Header("Wave Configs")]
-        [SerializeField] private Vector2 _waveAreaSize;
-        [SerializeField] private int _enemyCount;
-        [SerializeField] private int _waveTestInterval = 5;
+        [SerializeField] 
+        private Vector2 _waveAreaSize;
+        [SerializeField] 
+        private int _enemyCount;
+        [SerializeField] 
+        private int _waveTestInterval = 5;
 
         [Header("Test Enemy Configs")] 
-        [SerializeField] private int _healthValue = 1;
-        [SerializeField] private float _minAttackDistance = 2;
-        [SerializeField] private float _maxAttackDistance = 2;
+        [SerializeField] 
+        private int _healthValue = 1;
+        [SerializeField] 
+        private float _minAttackDistance = 2;
+        [SerializeField] 
+        private float _maxAttackDistance = 2;
 
         private void Start()
         {

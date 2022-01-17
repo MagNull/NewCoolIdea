@@ -8,9 +8,12 @@ namespace Sources.Runtime.Composite_Roots
 {
     public class PlayerInitializer : MonoBehaviour
     {
-        [SerializeField] private CharacterPresenter _warriorPresenter;
-        [SerializeField] private CharacterPresenter _enchanterPresenter;
-        [SerializeField] private CharacterPresenter _rangerPresenter;
+        [SerializeField] 
+        private CharacterPresenter _warriorPresenter;
+        [SerializeField] 
+        private CharacterPresenter _enchanterPresenter;
+        [SerializeField] 
+        private CharacterPresenter _rangerPresenter;
         private PlayerPresenter _presenter;
         private InputRouter _inputRouter;
     

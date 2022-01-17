@@ -9,16 +9,19 @@ namespace Sources.Runtime.Models.Characters
     {
         public override Vector3 Position => _baseCharacter.Position;
         public override Quaternion Rotation => _baseCharacter.Rotation;
+        public override bool IsAlive => _baseCharacter.IsAlive;
 
-        public override Action<State> StateChanged
+        public override Health Health => _baseCharacter is null ? base.Health : _baseCharacter.Health;
+
+        public override event Action<State> StateChanged
         {
-            get => _baseCharacter.StateChanged;
-            set => _baseCharacter.StateChanged = value;
+            add => _baseCharacter.StateChanged += value;
+            remove => _baseCharacter.StateChanged -= value;
         }
         
         protected Character _baseCharacter;
 
-        public CharacterDecorator(Character baseCharacter, CharacterBank characterBank) 
+        protected CharacterDecorator(Character baseCharacter, CharacterBank characterBank) 
             : base(baseCharacter.Position, baseCharacter.Rotation, baseCharacter.Health.Value, 
                 characterBank, baseCharacter.MinAttackDistance, baseCharacter.MaxAttackDistance)
         {
@@ -35,5 +38,7 @@ namespace Sources.Runtime.Models.Characters
         public override void AttackTarget() => _baseCharacter.AttackTarget();
 
         public override void SetTarget(object target) => _baseCharacter.SetTarget(target);
+
+        public override void Die() => _baseCharacter.Die();
     }
 }
