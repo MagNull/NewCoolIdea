@@ -1,14 +1,13 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace Sources.Runtime.Models.CharactersStateMachine
 {
     public class AttackState : State
     {
-        public AttackState(NavMeshAgent navMeshAgent, Func<Damageable> getTarget, 
+        public AttackState( Func<dynamic> getTarget, 
             Transformable characterTransformable, float attackDistance, StateMachine stateMachine) 
-            : base(navMeshAgent, getTarget, characterTransformable, attackDistance, stateMachine)
+            : base(getTarget, characterTransformable, attackDistance, stateMachine)
         {
             
         }
@@ -25,19 +24,16 @@ namespace Sources.Runtime.Models.CharactersStateMachine
 
         public override void LogicUpdate()
         {
-            Damageable targetCharacter = _getTarget.Invoke();
-            if (!(targetCharacter is null) && targetCharacter.IsAlive)
+            dynamic target = _getTarget.Invoke();
+            if (target is Damageable {IsAlive: true} targetDamageable)
             {
-                if (Vector3.SqrMagnitude(targetCharacter.Position - _characterTransformable.Position) >
+                if (Vector3.SqrMagnitude(targetDamageable.Position - _characterTransformable.Position) >
                     _attackDistance * _attackDistance)
                     _stateMachine.ChangeState<MoveState>();
             }
             else
             {
-                if(_navMeshAgent.remainingDistance <= 0.3f)
-                    _stateMachine.ChangeState<IdleState>();
-                else
-                    _stateMachine.ChangeState<MoveState>();
+                _stateMachine.ChangeState<IdleState>();
             }
         }
 

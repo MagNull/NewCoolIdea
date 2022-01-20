@@ -5,7 +5,7 @@ namespace Sources.Runtime.Models.Characters
 {
     public abstract class AutoTargetCharacter : Character
     {
-        private IFindTargetStrategy _findTargetStrategy;
+        private readonly IFindTargetStrategy _findTargetStrategy;
 
         public AutoTargetCharacter(Vector3 position, Quaternion rotation, int healthValue, CharacterBank characterBank,
             float minAttackDistance, float maxAttackDistance) 

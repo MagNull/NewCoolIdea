@@ -9,7 +9,7 @@ namespace Sources.Runtime
     public class EnemyWaveSimulation : MonoBehaviour
     {
         [SerializeField] 
-        private EnemyPresentersFactory _presentersFactory;
+        private EnemyFactory _factory;
         [SerializeField] 
         private CharacterBank _characterBank;
         
@@ -50,7 +50,7 @@ namespace Sources.Runtime
                 Vector3 position = GetRandomAreaPosition();
                 var model = new Enemy(position, Quaternion.identity, _healthValue, _characterBank,
                     _minAttackDistance, _maxAttackDistance);
-                _presentersFactory.Create(model);
+                _factory.Create(model);
             }
         }
 

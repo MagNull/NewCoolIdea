@@ -6,43 +6,57 @@ namespace Sources.Runtime.Models.CharactersStateMachine
 {
     public class MoveState : State
     {
-        public MoveState(NavMeshAgent navMeshAgent, Func<Damageable> getTarget, 
-            Transformable characterTransformable, float attackDistance, StateMachine stateMachine)
-            : base(navMeshAgent, getTarget, characterTransformable, attackDistance, stateMachine)
-        {
-        }
+        private readonly NavMeshAgent _navMeshAgent;
         
+        public MoveState(NavMeshAgent navMeshAgent, Func<dynamic> getTarget, 
+            Transformable characterTransformable, float attackDistance, StateMachine stateMachine)
+            : base(getTarget, characterTransformable, attackDistance, stateMachine)
+        {
+            _navMeshAgent = navMeshAgent;
+        }
+
         public override void Enter()
         {
-            _navMeshAgent.isStopped = false;
+            _navMeshAgent.enabled = true;
         }
 
         public override void Exit()
         {
-            _navMeshAgent.isStopped = true;
+            _navMeshAgent.enabled = false;
         }
 
         public override void LogicUpdate()
         {
-            Damageable targetCharacter = _getTarget.Invoke();
-            if (!(targetCharacter is null) && targetCharacter.IsAlive)
+            dynamic target = _getTarget.Invoke();
+            if (target is Damageable {IsAlive: true} targetDamageable)
             {
-                if(Vector3.SqrMagnitude(targetCharacter.Position - _characterTransformable.Position) <= 
-                   _attackDistance * _attackDistance)
+                if (Vector3.SqrMagnitude(targetDamageable.Position - _characterTransformable.Position) <=
+                    _attackDistance * _attackDistance)
+                {
                     _stateMachine.ChangeState<AttackState>();
+                }
             }
-            else if(_navMeshAgent.remainingDistance <= 0.3f)
+            else if (target is Vector3 targetPoint &&
+                     Vector3.SqrMagnitude(_characterTransformable.Position - targetPoint) <= 0.09f)
+            { 
                 _stateMachine.ChangeState<IdleState>();
+            }
         }
 
         public override void Update(float deltaTime)
         {
-            var targetCharacter = _getTarget.Invoke();
-            if (!(targetCharacter is null))
+            dynamic target = _getTarget.Invoke();
+            if (target is Transformable targetTransformable)
             {
-                _navMeshAgent.SetDestination(targetCharacter.Position);
-                _characterTransformable.LookAt(targetCharacter);
+                _navMeshAgent.SetDestination(targetTransformable.Position);
+                _characterTransformable.LookAt(targetTransformable);
             }
+            else if(target is Vector3 targetPoint)
+            {
+                _navMeshAgent.SetDestination(targetPoint);
+                _characterTransformable.LookAt(targetPoint);
+            }
+            _characterTransformable.MoveTo(_navMeshAgent.nextPosition);
         }
     }
 }

@@ -7,27 +7,17 @@ namespace Sources.Runtime
 {
     public class CharacterBank : MonoBehaviour
     {
-        [SerializeField] 
-        private List<Character> _allies = new List<Character>();
-        [SerializeField] 
-        private List<Character> _enemies = new List<Character>();
+        private  List<Character> _allies = new List<Character>();
+        private  List<Character> _enemies = new List<Character>();
 
         public IReadOnlyList<Damageable> Allies => _allies;
-
         public IReadOnlyList<Damageable> Enemies => _enemies;
 
         public void AddCharacter(Character character)
         {
-            if (character is Enemy enemy)
-            {
-                _enemies.Add(enemy);
-                enemy.Health.Died += () => _enemies.Remove(enemy);
-            }
-            else
-            {
-                _allies.Add(character);
-                character.Health.Died += () => _allies.Remove(character);
-            }
+            var teamList = character is Enemy ? _enemies : _allies;
+            teamList.Add(character);
+            character.Health.Died += () => teamList.Remove(character);
         }
     }
 }

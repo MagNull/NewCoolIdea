@@ -1,18 +1,16 @@
 ﻿using System;
-using Sources.Runtime.Models.Characters;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace Sources.Runtime.Models.CharactersStateMachine
 {
     public class IdleState : State
     {
-        public IdleState(NavMeshAgent navMeshAgent, Func<Damageable> getTarget, 
+        public IdleState(Func<dynamic> getTarget, 
             Transformable characterTransformable, float attackDistance, StateMachine stateMachine) 
-            : base(navMeshAgent, getTarget, characterTransformable, attackDistance, stateMachine)
+            : base(getTarget, characterTransformable, attackDistance, stateMachine)
         {
         }
-        
+
         public override void Enter()
         {
             
@@ -25,15 +23,16 @@ namespace Sources.Runtime.Models.CharactersStateMachine
 
         public override void LogicUpdate()
         {
-            Damageable targetCharacter = _getTarget.Invoke();
-            if (targetCharacter is null)
+            dynamic target = _getTarget.Invoke();
+            if (target is Vector3 targetPoint)
             {
-                if(_navMeshAgent.remainingDistance > 0.3f)
+                //Vector3 targetPoint = target;
+                if(Vector3.SqrMagnitude(_characterTransformable.Position - targetPoint) > 0.09f)
                     _stateMachine.ChangeState<MoveState>();
             }
-            else if(targetCharacter.IsAlive)
+            else if(target is Damageable {IsAlive: true} targetDamageable)
             {
-                if(Vector3.SqrMagnitude(_characterTransformable.Position - targetCharacter.Position) <= 
+                if(Vector3.SqrMagnitude(_characterTransformable.Position - targetDamageable.Position) <= 
                    _attackDistance * _attackDistance)
                     _stateMachine.ChangeState<AttackState>();
                 else

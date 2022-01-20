@@ -1,5 +1,6 @@
 ﻿using System;
 using Sources.External.QuickOutline.Scripts;
+using Sources.Runtime.Models.CharactersStateMachine;
 
 namespace Sources.Runtime.Models.Characters
 {
@@ -21,22 +22,30 @@ namespace Sources.Runtime.Models.Characters
                     Deselect(_currentCommander);
             };
         }
+
+        private void OnAbilityUsed(int num)
+        {
+            _baseCharacter.StateMachine.ChangeAbilityNumber(num);
+            _baseCharacter.StateMachine.ChangeState<AbilityCastState>();
+        }
         
         public void Select(CharacterControl commander)
         {
             if (IsAlive)
             {
                 _currentCommander = commander;
-                _currentCommander.Commanded += SetTarget;
+                _currentCommander.TargetingCommanded += SetTarget;
                 _currentCommander.SelectionCanceled += Deselect;
+                _currentCommander.AbilityUsed += OnAbilityUsed;
                 Selected?.Invoke();
             }
         }
 
         private void Deselect(CharacterControl commander)
         {
-            _currentCommander.Commanded -= SetTarget;
+            _currentCommander.TargetingCommanded -= SetTarget;
             _currentCommander.SelectionCanceled -= Deselect;
+            _currentCommander.AbilityUsed -= OnAbilityUsed;
             _currentCommander = null;
             Deselected?.Invoke();
         }

@@ -1,22 +1,18 @@
-﻿using System;
-using Sources.Runtime.Models.Characters;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Sources.Runtime.Models
 {
-    public class Projectile : Transformable, IUpdatable
+    public class Projectile : DamageDealer, IUpdatable
     {
-        private int _damage;
-        private float _speed;
-        private Damageable _target;
+        private readonly float _speed;
+        private readonly Damageable _target;
 
         public Projectile(Vector3 position, Quaternion rotation, 
             Damageable target, float speed, int damage) 
-            : base(position, rotation)
+            : base(position, rotation, damage)
         {
             _target = target;
             _speed = speed;
-            _damage = damage;
         }
 
         public void Update(float deltaTime)
@@ -32,13 +28,6 @@ namespace Sources.Runtime.Models
                 newPosition.y = Position.y;
                 MoveTo(newPosition);
             }
-            
-        }
-
-        public void OnCollision(Character character)
-        {
-            character.Health.TakeDamage(_damage);
-            Destroy();
         }
     }
 }

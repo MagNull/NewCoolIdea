@@ -5,8 +5,8 @@ namespace Sources.Runtime.Models.Characters
 {
     public class RangeAttackCharacter : Character
     {
-        private ProjectilesFactory _projectilesFactory;
-        private Transform _projectileOrigin;
+        private readonly ProjectilesFactory _projectilesFactory;
+        private readonly Transform _projectileOrigin;
         
         public RangeAttackCharacter(Vector3 position, Quaternion rotation, int healthValue,
             CharacterBank characterBank, 
@@ -20,7 +20,7 @@ namespace Sources.Runtime.Models.Characters
 
         public override void AttackTarget()
         {
-            var projectile = new Projectile(_projectileOrigin.position, Quaternion.identity, GetTarget(), 10, 1);
+            var projectile = new Projectile(_projectileOrigin.position, Quaternion.identity, GetTargetCharacter(), 20, 1);
             _projectilesFactory.Create(projectile);
         }
     }

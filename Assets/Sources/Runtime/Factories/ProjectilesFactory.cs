@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Sources.Runtime.Presenters
 {
-    public class ProjectilesFactory : PresentersFactory<Projectile>
+    public class ProjectilesFactory : PresentersFactory<DamageDealer>
     {
-        [SerializeField] private ProjectilePresenter _testProjectilePrefab;
+        [SerializeField] private DamageDealerPresenter _testProjectilePrefab;
         
-        protected override Presenter<Projectile> GetPrefab(Projectile model)
+        protected override Presenter<DamageDealer> GetPrefab(DamageDealer model)
         {
             return _testProjectilePrefab;
         }

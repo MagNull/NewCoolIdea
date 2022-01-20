@@ -16,15 +16,18 @@ namespace Sources.Runtime.Composite_Roots
         private CharacterPresenter _rangerPresenter;
         private PlayerPresenter _presenter;
         private InputRouter _inputRouter;
-    
+        private CharacterControl _characterControl;
+
         private void Awake()
         {
             _presenter = GetComponent<PlayerPresenter>();
             _presenter.Init(new Player(transform.position, transform.rotation));
-            _inputRouter = new InputRouter(new CharacterControl(),
+            _inputRouter = new InputRouter();
+            _characterControl = new CharacterControl(_inputRouter,
                 (CommandableCharacter) _warriorPresenter.Model,
                 (CommandableCharacter) _enchanterPresenter.Model,
                 (CommandableCharacter) _rangerPresenter.Model);
+            _characterControl.Init();
         }
 
         private void OnEnable()

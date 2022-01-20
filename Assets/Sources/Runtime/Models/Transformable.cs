@@ -14,7 +14,7 @@ namespace Sources.Runtime.Models
         public event Action Rotated;
         public event Action Destroying;
 
-        public Transformable(Vector3 position, Quaternion rotation)
+        protected Transformable(Vector3 position, Quaternion rotation)
         {
             Position = position;
             Rotation = rotation;
@@ -28,17 +28,17 @@ namespace Sources.Runtime.Models
                 Rotation = Quaternion.LookRotation(targetVector - Position);
             Rotated?.Invoke();
         }
-        
-        public void RotateTo(Vector3 rotation)
-        {
-            Rotation = Quaternion.Euler(rotation);
-            Rotated?.Invoke();
-        }
 
         public void MoveTo(Vector3 position)
         {
             Position = position;
             Moved?.Invoke();
+        }
+
+        protected void RotateTo(Vector3 rotation)
+        {
+            Rotation = Quaternion.Euler(rotation);
+            Rotated?.Invoke();
         }
 
         public void Destroy()

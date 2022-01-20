@@ -9,10 +9,12 @@ namespace Sources.Runtime.Models.CharactersStateMachine
         public event Action<State> StateChanged;
         private State[] _states;
         private State _currentState;
+        private AbilityCastState _abilityCastState;
         
         public void Init(State[] states, State startState)
         {
             _states = states;
+            _abilityCastState = (AbilityCastState) _states.FirstOrDefault(x => x is AbilityCastState);
             _currentState = startState;
         }
         
@@ -24,6 +26,8 @@ namespace Sources.Runtime.Models.CharactersStateMachine
             _currentState.Enter();
             StateChanged?.Invoke(_currentState);
         }
+
+        public void ChangeAbilityNumber(int num) => _abilityCastState.AbilityNumber = num;
 
         public void Update(float deltaTime)
         {

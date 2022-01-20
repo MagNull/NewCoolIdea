@@ -10,17 +10,20 @@ namespace Sources.Runtime.Models.Characters
     public class Character : Damageable, IUpdatable, IStateful
     {
         public virtual event Action<State> StateChanged;
-        
-        protected CharacterBank _characterBank;
+
         protected IReadOnlyList<Damageable> _targets;
+        protected readonly CharacterBank _characterBank;
+        
+        private NavMeshAgent _navMeshAgent;
         private float _minAttackDistance;
         private float _maxAttackDistance;
-        private NavMeshAgent _navMeshAgent;
-        private Damageable _targetCharacter;
+        private dynamic _target;
         private StateMachine _stateMachine;
 
         public float MinAttackDistance => _minAttackDistance;
         public float MaxAttackDistance => _maxAttackDistance;
+
+        public StateMachine StateMachine => _stateMachine;
 
         public Character(Vector3 position, Quaternion rotation, int healthValue, CharacterBank characterBank, 
             float minAttackDistance, float maxAttackDistance) : base(position, rotation, healthValue)
@@ -37,44 +40,36 @@ namespace Sources.Runtime.Models.Characters
             _navMeshAgent.updateRotation = false;
             _stateMachine = new StateMachine();
             var states = GetStates();
-            _stateMachine.StateChanged += StateChanged;
-            _stateMachine.Init(states, states[0]);
+            StateMachine.StateChanged += StateChanged;
+            StateMachine.Init(states, states[0]);
         }
 
         public virtual void AttackTarget()
         {
-            _targetCharacter?.Health.TakeDamage(1);//TODO: Define what damage
+            _target?.Health.TakeDamage(1);//TODO: Define what damage
         }
 
         public virtual void Update(float deltaTime)
         {
-            MoveTo(_navMeshAgent.nextPosition);
-            _stateMachine.Update(deltaTime);
+            StateMachine.Update(deltaTime);
         }
 
-        public virtual void SetTarget(object target)
+        public virtual void SetTarget(dynamic target)
         {
-            _targetCharacter = null;
-            if (target is Vector3 targetPos)
-            {
-                _navMeshAgent.SetDestination(targetPos);
-                LookAt(target);
-            }
-            else if (target is Damageable targetCharacter
-                && targetCharacter.Position != Position)
-            {
-                _targetCharacter = targetCharacter;
-            }
+            if(target is Transformable transformable &&
+               transformable.Position == Position)
+                return;
+            _target = target;
         }
 
         public override void Die()
         {
             base.Die();
-            _stateMachine.ChangeState<DieState>();
+            StateMachine.ChangeState<DieState>();
             _navMeshAgent.enabled = false;
         }
 
-        protected Damageable GetTarget() => _targetCharacter;
+        protected dynamic GetTargetCharacter() => _target;
 
         protected virtual void DefineTeam()
         {
@@ -84,11 +79,17 @@ namespace Sources.Runtime.Models.Characters
 
         private State[] GetStates()
         {
-            var states = new State[4];
-            states[0] = new IdleState(_navMeshAgent, GetTarget, this, MinAttackDistance, _stateMachine);
-            states[1] = new MoveState(_navMeshAgent, GetTarget, this, MinAttackDistance, _stateMachine);
-            states[2] = new AttackState(_navMeshAgent, GetTarget, this, MaxAttackDistance, _stateMachine);
-            states[3] = new DieState(_navMeshAgent, GetTarget, this, MinAttackDistance, _stateMachine);
+            var states = new State[5];
+            states[0] = new IdleState(GetTargetCharacter, 
+                this, MinAttackDistance, StateMachine);
+            states[1] = new MoveState(_navMeshAgent, GetTargetCharacter, 
+                this, MinAttackDistance, StateMachine);
+            states[2] = new AttackState(GetTargetCharacter, 
+                this, MaxAttackDistance, StateMachine);
+            states[3] = new DieState(GetTargetCharacter, 
+                this, MinAttackDistance, StateMachine);
+            states[4] = new AbilityCastState(GetTargetCharacter, 
+                this, MinAttackDistance, StateMachine);
 
             return states;
         }
