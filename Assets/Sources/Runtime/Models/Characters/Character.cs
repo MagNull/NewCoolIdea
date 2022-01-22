@@ -54,12 +54,9 @@ namespace Sources.Runtime.Models.Characters
                 });
         }
 
-        public virtual void AttackTarget()
+        public virtual void AttackTarget()//TODO: Refactor for melee characters
         {
-            if (_target is Damageable damageable)
-                damageable.Health.TakeDamage(1); //TODO: Define what damage
-            else
-                throw new Exception("Current target is not damageable");
+            
         }
 
         public virtual void Update(float deltaTime)

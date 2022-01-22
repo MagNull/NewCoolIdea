@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Sources.Runtime.Models.Characters;
+using UnityEngine;
 
 namespace Sources.Runtime.Models
 {
@@ -13,6 +14,12 @@ namespace Sources.Runtime.Models
         {
             _target = target;
             _speed = speed;
+        }
+
+        public override void OnCollision(Character character)
+        {
+            base.OnCollision(character);
+            Destroy();
         }
 
         public void Update(float deltaTime)

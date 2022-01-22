@@ -7,13 +7,12 @@ namespace Sources.Runtime.Models
     {
         private readonly int _damage;
         
-        public void OnCollision(Character character)
+        public virtual void OnCollision(Character character)
         {
             character.Health.TakeDamage(_damage);
-            Destroy();
         }
 
-        protected DamageDealer(Vector3 position, Quaternion rotation, int damage) : base(position, rotation)
+        public DamageDealer(Vector3 position, Quaternion rotation, int damage) : base(position, rotation)
         {
             _damage = damage;
         }
