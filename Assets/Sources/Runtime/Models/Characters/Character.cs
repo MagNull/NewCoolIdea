@@ -20,12 +20,12 @@ namespace Sources.Runtime.Models.Characters
         private float _maxAttackDistance;
         private dynamic _target;
         private StateMachine _stateMachine;
-        private AbilityCaster _abilityCaster;
+        private AbilityCast _abilityCast;
 
         public float MinAttackDistance => _minAttackDistance;
         public float MaxAttackDistance => _maxAttackDistance;
 
-        public AbilityCaster AbilityCaster => _abilityCaster;
+        public AbilityCast abilityCast => _abilityCast;
 
         public Character(Vector3 position, Quaternion rotation, int healthValue, CharacterBank characterBank, 
             float minAttackDistance, float maxAttackDistance) : base(position, rotation, healthValue)
@@ -47,10 +47,10 @@ namespace Sources.Runtime.Models.Characters
             _stateMachine.StateChanged += StateChanged;
             _stateMachine.Init(states, states[0]);
 
-            _abilityCaster = new AbilityCaster(_stateMachine, 
+            _abilityCast = new AbilityCast(_stateMachine, 
                 new []
                 {
-                    new Ability("Warrior Spin", 5, 2, true)
+                    new Ability("Warrior Spin", 2, 2, true)
                 });
         }
 
@@ -64,6 +64,7 @@ namespace Sources.Runtime.Models.Characters
 
         public virtual void Update(float deltaTime)
         {
+            _abilityCast.Update(deltaTime);
             _stateMachine.Update(deltaTime);
         }
 

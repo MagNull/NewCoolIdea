@@ -29,7 +29,7 @@ namespace Sources.Runtime.Models.Characters
                 _currentCommander = commander;
                 _currentCommander.TargetingCommanded += SetTarget;
                 _currentCommander.SelectionCanceled += Deselect;
-                _currentCommander.AbilityUsed += _baseCharacter.AbilityCaster.OnAbilityCasted;
+                _currentCommander.AbilityUseTried += _baseCharacter.abilityCast.OnAbilityUseTried;
                 Selected?.Invoke();
             }
         }
@@ -38,7 +38,7 @@ namespace Sources.Runtime.Models.Characters
         {
             _currentCommander.TargetingCommanded -= SetTarget;
             _currentCommander.SelectionCanceled -= Deselect;
-            _currentCommander.AbilityUsed -= _baseCharacter.AbilityCaster.OnAbilityCasted;
+            _currentCommander.AbilityUseTried -= _baseCharacter.abilityCast.OnAbilityUseTried;
             _currentCommander = null;
             Deselected?.Invoke();
         }

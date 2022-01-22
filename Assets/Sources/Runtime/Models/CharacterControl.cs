@@ -9,7 +9,7 @@ namespace Sources.Runtime.Models
     public class CharacterControl
     {
         public event Action<dynamic> TargetingCommanded;
-        public event Action<int> AbilityUsed;
+        public event Action<int> AbilityUseTried;
         public event Action<CharacterControl> SelectionCanceled;
         
         private readonly Camera _camera;
@@ -49,9 +49,9 @@ namespace Sources.Runtime.Models
                 CancelSelection();
                 _ranger.Select(this);
             };
-            _inputRouter.Input.Player.Ability1.performed += _ => AbilityUsed?.Invoke(1);
-            _inputRouter.Input.Player.Ability2.performed += _ => AbilityUsed?.Invoke(2);
-            _inputRouter.Input.Player.Ability3.performed += _ => AbilityUsed?.Invoke(3);
+            _inputRouter.Input.Player.Ability1.performed += _ => AbilityUseTried?.Invoke(1);
+            _inputRouter.Input.Player.Ability2.performed += _ => AbilityUseTried?.Invoke(2);
+            _inputRouter.Input.Player.Ability3.performed += _ => AbilityUseTried?.Invoke(3);
         }
         
         private void SelectCharacter()
