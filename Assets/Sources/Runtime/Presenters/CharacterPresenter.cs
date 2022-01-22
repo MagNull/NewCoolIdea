@@ -1,4 +1,5 @@
-﻿using Sources.Runtime.Models;
+﻿using System;
+using Sources.Runtime.Models;
 using Sources.Runtime.Models.Characters;
 using Sources.Runtime.Models.CharactersStateMachine;
 using UnityEngine;
@@ -7,11 +8,10 @@ using UnityEngine.AI;
 namespace Sources.Runtime.Presenters
 {
     [SelectionBase]
-    [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(Animator), typeof(NavMeshAgent))]
     public class CharacterPresenter : Presenter<Character>
     {
         private Animator _animator;
-        private NavMeshAgent _navMeshAgent;
         private readonly int _attackTrigger = Animator.StringToHash("Attack");
         private readonly int _moveTrigger = Animator.StringToHash("Move");
         private readonly int _idleTrigger = Animator.StringToHash("Idle");
@@ -20,7 +20,7 @@ namespace Sources.Runtime.Presenters
         public override void Init(Character model)
         {
             base.Init(model);
-            Model.Init(_navMeshAgent);
+            Model.Init(GetComponent<NavMeshAgent>());
         }
 
         public void AttackTarget()
@@ -28,14 +28,11 @@ namespace Sources.Runtime.Presenters
             Model.AttackTarget();   
         }
 
-        public void DisableNavMeshAgent() => _navMeshAgent.enabled = false;
-        
         private void Awake()
         {
             _animator = GetComponent<Animator>();
-            _navMeshAgent = GetComponent<NavMeshAgent>();
         }
-
+        
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -50,7 +47,6 @@ namespace Sources.Runtime.Presenters
 
         private void OnStateChanged(State newState)
         {
-            _navMeshAgent.enabled = true;
             if(newState is AttackState)
                 _animator.SetTrigger(_attackTrigger);
             else if(newState is MoveState)
@@ -59,8 +55,8 @@ namespace Sources.Runtime.Presenters
                 _animator.SetTrigger(_idleTrigger);
             else if(newState is DieState)
                 _animator.SetTrigger(_dieTrigger);
-            else if(newState is AbilityCastState ability)
-                _animator.SetTrigger("Ability " + ability.AbilityNumber);
+            else if(newState is AbilityCastState abilityCastState)
+                _animator.SetTrigger(abilityCastState.Ability.Name);
         }
     }
 }

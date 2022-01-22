@@ -191,7 +191,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Ability 1
+    m_ConditionEvent: Warrior Spin
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 2998949996004221518}
   m_DstState: {fileID: 0}
@@ -306,7 +306,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 41be7e89d14c4b040b154b185586a8ed, type: 2}
+  m_Motion: {fileID: 7400000, guid: 5485e87e0417a1848b8c8c60e955f526, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -321,7 +321,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Ability 1
+    m_ConditionEvent: Warrior Spin
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 2998949996004221518}
   m_DstState: {fileID: 0}
@@ -370,7 +370,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: Ability 1
+  - m_Name: Warrior Spin
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -478,7 +478,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Ability 1
+    m_ConditionEvent: Warrior Spin
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 2998949996004221518}
   m_DstState: {fileID: 0}
@@ -572,7 +572,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Ability 1
+    m_ConditionEvent: Warrior Spin
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 2998949996004221518}
   m_DstState: {fileID: 0}

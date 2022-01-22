@@ -20,8 +20,13 @@ namespace Sources.Runtime.Models.Characters
 
         public override void AttackTarget()
         {
-            var projectile = new Projectile(_projectileOrigin.position, Quaternion.identity, GetTargetCharacter(), 20, 1);
-            _projectilesFactory.Create(projectile);
+            var target = GetTargetCharacter();
+            if (target is Damageable {IsAlive: true} damageableTarget)
+            {
+                var projectile = new Projectile(_projectileOrigin.position,
+                    Quaternion.identity, damageableTarget, 20, 1);
+                _projectilesFactory.Create(projectile);
+            }
         }
     }
 }

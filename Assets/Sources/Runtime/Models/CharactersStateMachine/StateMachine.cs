@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using UnityEngine;
+using Sources.Runtime.Models.Abilities;
 
 namespace Sources.Runtime.Models.CharactersStateMachine
 {
@@ -10,7 +10,9 @@ namespace Sources.Runtime.Models.CharactersStateMachine
         private State[] _states;
         private State _currentState;
         private AbilityCastState _abilityCastState;
-        
+
+        public State CurrentState => _currentState;
+
         public void Init(State[] states, State startState)
         {
             _states = states;
@@ -20,19 +22,19 @@ namespace Sources.Runtime.Models.CharactersStateMachine
         
         public void ChangeState<T>() where T : State
         {
-            _currentState.Exit();
+            CurrentState.Exit();
 
             _currentState = _states.FirstOrDefault(state => state is T);
-            _currentState.Enter();
-            StateChanged?.Invoke(_currentState);
+            CurrentState.Enter();
+            StateChanged?.Invoke(CurrentState);
         }
 
-        public void ChangeAbilityNumber(int num) => _abilityCastState.AbilityNumber = num;
+        public void SwitchActiveAbility(Ability ability) => _abilityCastState.Ability = ability;
 
         public void Update(float deltaTime)
         {
-            _currentState.LogicUpdate();
-            _currentState.Update(deltaTime);
+            CurrentState.LogicUpdate();
+            CurrentState.Update(deltaTime);
         }
     }
 }

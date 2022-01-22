@@ -7,7 +7,7 @@ namespace Sources.Runtime.Models.CharactersStateMachine
     public class MoveState : State
     {
         private readonly NavMeshAgent _navMeshAgent;
-        
+
         public MoveState(NavMeshAgent navMeshAgent, Func<dynamic> getTarget, 
             Transformable characterTransformable, float attackDistance, StateMachine stateMachine)
             : base(getTarget, characterTransformable, attackDistance, stateMachine)
@@ -17,12 +17,12 @@ namespace Sources.Runtime.Models.CharactersStateMachine
 
         public override void Enter()
         {
-            _navMeshAgent.enabled = true;
+            _navMeshAgent.isStopped = false;
         }
 
         public override void Exit()
         {
-            _navMeshAgent.enabled = false;
+            _navMeshAgent.isStopped = true;
         }
 
         public override void LogicUpdate()
