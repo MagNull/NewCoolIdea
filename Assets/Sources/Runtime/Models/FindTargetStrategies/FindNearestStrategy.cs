@@ -6,7 +6,7 @@ namespace Sources.Runtime.Models.FindTargetStrategies
 {
     public class FindNearestStrategy : IFindTargetStrategy
     {
-        public Damageable GetTarget(IReadOnlyList<Damageable> characters, Character originCharacter)
+        public Damageable GetTarget(IReadOnlyList<Damageable> characters, Transformable originCharacter)
         {
             var nearest = characters[0];
             foreach (var character in characters)

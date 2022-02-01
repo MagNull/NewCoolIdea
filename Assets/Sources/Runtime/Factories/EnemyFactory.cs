@@ -1,4 +1,5 @@
-﻿using Sources.Runtime.Models.Characters;
+﻿using Sources.Runtime.Models;
+using Sources.Runtime.Models.Characters;
 using UnityEngine;
 
 namespace Sources.Runtime.Presenters
@@ -9,6 +10,9 @@ namespace Sources.Runtime.Presenters
         
         protected override Presenter<Character> GetPrefab(Character model)
         {
+            var weapon = new MeleeWeapon(1, 2, 3,
+                _testEnemyPrefab.GetComponentInChildren<DamageDealerPresenter>().Model);
+            model.BindWeapon(weapon);
             return _testEnemyPrefab;
         }
     }

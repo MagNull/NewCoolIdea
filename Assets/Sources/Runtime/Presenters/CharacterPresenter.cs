@@ -1,6 +1,4 @@
-﻿using System;
-using Sources.Runtime.Models;
-using Sources.Runtime.Models.Characters;
+﻿using Sources.Runtime.Models.Characters;
 using Sources.Runtime.Models.CharactersStateMachine;
 using UnityEngine;
 using UnityEngine.AI;

@@ -10,11 +10,12 @@ namespace Sources.Runtime.Models.CharactersStateMachine
         public Ability Ability { get; set; }
 
         private readonly NavMeshAgent _navMeshAgent;
+
         private float _abilityCastingTime;
-        
-        public AbilityCastState(NavMeshAgent navMeshAgent, Func<dynamic> getTarget,
-            Transformable characterTransformable, float attackDistance, StateMachine stateMachine) 
-            : base(getTarget, characterTransformable, attackDistance, stateMachine)
+
+        public AbilityCastState(NavMeshAgent navMeshAgent, Func<dynamic> getTarget, Transformable characterTransformable,
+            Func<Weapon> getWeapon, StateMachine stateMachine) 
+            : base(getTarget, characterTransformable, getWeapon, stateMachine)
         {
             _navMeshAgent = navMeshAgent;
         }
@@ -23,6 +24,8 @@ namespace Sources.Runtime.Models.CharactersStateMachine
         {
             _navMeshAgent.isStopped = !Ability.Mobility;
             _abilityCastingTime = Ability.CastTime;
+            if(_getWeapon.Invoke() is MeleeWeapon meleeWeapon)
+                meleeWeapon.Activate();
         }
 
         public override void Exit()
@@ -30,6 +33,9 @@ namespace Sources.Runtime.Models.CharactersStateMachine
             Ability.StartCooldown();
             if (Ability.Mobility)
                 _navMeshAgent.isStopped = true;
+            if(_getWeapon.Invoke() is MeleeWeapon meleeWeapon)
+                meleeWeapon.Deactivate();
+
         }
 
         public override void LogicUpdate()

@@ -4,15 +4,16 @@ namespace Sources.Runtime.Models.CharactersStateMachine
     public abstract class State : IUpdatable
     {
         protected readonly Func<dynamic> _getTarget;
+        protected readonly Func<Weapon> _getWeapon;
         protected float _attackDistance;
         protected readonly StateMachine _stateMachine;
         protected readonly Transformable _characterTransformable;
 
         protected State(Func<dynamic> getTarget, Transformable characterTransformable,
-            float attackDistance, StateMachine stateMachine)
+            Func<Weapon> getWeapon, StateMachine stateMachine)
         {
             _getTarget = getTarget;
-            _attackDistance = attackDistance;
+            _getWeapon = getWeapon;
             _characterTransformable = characterTransformable;
             _stateMachine = stateMachine;
         }

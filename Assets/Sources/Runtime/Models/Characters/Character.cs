@@ -12,27 +12,45 @@ namespace Sources.Runtime.Models.Characters
     {
         public virtual event Action<State> StateChanged;
 
+        protected AbilityCast _abilityCast;
         protected IReadOnlyList<Damageable> _targets;
         protected readonly CharacterBank _characterBank;
-        
+
         private NavMeshAgent _navMeshAgent;
-        private float _minAttackDistance;
-        private float _maxAttackDistance;
         private dynamic _target;
         private StateMachine _stateMachine;
-        private AbilityCast _abilityCast;
+        private Weapon _weapon;
+        
 
-        public float MinAttackDistance => _minAttackDistance;
-        public float MaxAttackDistance => _maxAttackDistance;
-
-        public AbilityCast abilityCast => _abilityCast;
-
-        public Character(Vector3 position, Quaternion rotation, int healthValue, CharacterBank characterBank, 
-            float minAttackDistance, float maxAttackDistance) : base(position, rotation, healthValue)
+        public Character(Vector3 position, Quaternion rotation, int healthValue, CharacterBank characterBank) 
+            : base(position, rotation, healthValue)
         {
             _characterBank = characterBank;
-            _minAttackDistance = minAttackDistance;
-            _maxAttackDistance = maxAttackDistance;
+        }
+
+        public void AttackTarget()
+        {
+            if(_target is Damageable damageable)
+                _weapon.Attack(damageable);
+        }
+
+        public Character BindWeapon(Weapon weapon)
+        {
+            _weapon = weapon;
+            return this;
+        }
+
+        public virtual void Update(float deltaTime)
+        {
+            _abilityCast.Update(deltaTime);
+            _stateMachine.Update(deltaTime);
+        }
+
+        public override void Die()
+        {
+            base.Die();
+            _stateMachine.ChangeState<DieState>();
+            _navMeshAgent.enabled = false;
         }
 
         public virtual void Init(NavMeshAgent navMeshAgent)
@@ -54,18 +72,7 @@ namespace Sources.Runtime.Models.Characters
                 });
         }
 
-        public virtual void AttackTarget()//TODO: Refactor for melee characters
-        {
-            
-        }
-
-        public virtual void Update(float deltaTime)
-        {
-            _abilityCast.Update(deltaTime);
-            _stateMachine.Update(deltaTime);
-        }
-
-        public virtual void SetTarget(dynamic target)
+        protected virtual void SetTarget(dynamic target)
         {
             if(target is Transformable transformable &&
                transformable.Position == Position)
@@ -73,14 +80,7 @@ namespace Sources.Runtime.Models.Characters
             _target = target;
         }
 
-        public override void Die()
-        {
-            base.Die();
-            _stateMachine.ChangeState<DieState>();
-            _navMeshAgent.enabled = false;
-        }
-
-        protected dynamic GetTargetCharacter() => _target;
+        protected dynamic GetTarget() => _target;
 
         protected virtual void DefineTeam()
         {
@@ -90,17 +90,18 @@ namespace Sources.Runtime.Models.Characters
 
         private State[] GetStates()
         {
+            Weapon GetWeapon() => _weapon;
             var states = new State[5];
-            states[0] = new IdleState(GetTargetCharacter, 
-                this, MinAttackDistance, _stateMachine);
-            states[1] = new MoveState(_navMeshAgent, GetTargetCharacter, 
-                this, MinAttackDistance, _stateMachine);
-            states[2] = new AttackState(GetTargetCharacter, 
-                this, MaxAttackDistance, _stateMachine);
-            states[3] = new DieState(GetTargetCharacter, 
-                this, MinAttackDistance, _stateMachine);
-            states[4] = new AbilityCastState(_navMeshAgent, GetTargetCharacter, 
-                this, MinAttackDistance, _stateMachine);
+            states[0] = new IdleState(GetTarget, 
+                this, GetWeapon, _stateMachine);
+            states[1] = new MoveState(_navMeshAgent, GetTarget, 
+                this, GetWeapon, _stateMachine);
+            states[2] = new AttackState(GetTarget, 
+                this, GetWeapon, _stateMachine);
+            states[3] = new DieState(GetTarget, 
+                this, GetWeapon, _stateMachine);
+            states[4] = new AbilityCastState(_navMeshAgent, GetTarget, 
+                this, GetWeapon, _stateMachine);
 
             return states;
         }

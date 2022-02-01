@@ -5,15 +5,16 @@ namespace Sources.Runtime.Models.CharactersStateMachine
 {
     public class IdleState : State
     {
-        public IdleState(Func<dynamic> getTarget, 
-            Transformable characterTransformable, float attackDistance, StateMachine stateMachine) 
-            : base(getTarget, characterTransformable, attackDistance, stateMachine)
+        public IdleState(Func<dynamic> getTarget, Transformable characterTransformable, Func<Weapon> getWeapon, 
+            StateMachine stateMachine) 
+            : base(getTarget, characterTransformable, getWeapon, stateMachine)
         {
         }
 
         public override void Enter()
         {
-            
+            _attackDistance = _getWeapon.Invoke().MinAttackDistance;
+
         }
 
         public override void Exit()
@@ -26,7 +27,6 @@ namespace Sources.Runtime.Models.CharactersStateMachine
             dynamic target = _getTarget.Invoke();
             if (target is Vector3 targetPoint)
             {
-                //Vector3 targetPoint = target;
                 if(Vector3.SqrMagnitude(_characterTransformable.Position - targetPoint) > 0.09f)
                     _stateMachine.ChangeState<MoveState>();
             }

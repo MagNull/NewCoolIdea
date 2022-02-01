@@ -1,27 +1,24 @@
 ﻿using System;
 using Sources.External.QuickOutline.Scripts;
+using UnityEngine;
 
 namespace Sources.Runtime.Models.Characters
 {
-    public class CommandableCharacter : CharacterDecorator
+    public class CommandableCharacter : Character
     {
         public event Action Selected;
         public event Action Deselected;
 
         private CharacterControl _currentCommander;
-
-        public CommandableCharacter(Character baseCharacter, CharacterBank characterBank, Outline outline) 
-            : base(baseCharacter, characterBank)
+        
+        public CommandableCharacter(Vector3 position, Quaternion rotation, int healthValue, 
+            CharacterBank characterBank, Outline outline) 
+            : base(position, rotation, healthValue, characterBank)
         {
             Selected += () => outline.enabled = true;
             Deselected += () => outline.enabled = false;
-            _baseCharacter.Health.Died += () =>
-            {
-                if (!(_currentCommander is null))
-                    Deselect(_currentCommander);
-            };
         }
-
+        
         public void Select(CharacterControl commander)
         {
             if (IsAlive)
@@ -29,7 +26,7 @@ namespace Sources.Runtime.Models.Characters
                 _currentCommander = commander;
                 _currentCommander.TargetingCommanded += SetTarget;
                 _currentCommander.SelectionCanceled += Deselect;
-                _currentCommander.AbilityUseTried += _baseCharacter.abilityCast.OnAbilityUseTried;
+                _currentCommander.AbilityUseTried += _abilityCast.OnAbilityUseTried;
                 Selected?.Invoke();
             }
         }
@@ -38,7 +35,7 @@ namespace Sources.Runtime.Models.Characters
         {
             _currentCommander.TargetingCommanded -= SetTarget;
             _currentCommander.SelectionCanceled -= Deselect;
-            _currentCommander.AbilityUseTried -= _baseCharacter.abilityCast.OnAbilityUseTried;
+            _currentCommander.AbilityUseTried -= _abilityCast.OnAbilityUseTried;
             _currentCommander = null;
             Deselected?.Invoke();
         }

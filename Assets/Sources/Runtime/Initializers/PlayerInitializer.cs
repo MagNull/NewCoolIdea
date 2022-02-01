@@ -1,3 +1,4 @@
+using System;
 using Sources.Runtime.Input;
 using Sources.Runtime.Models;
 using Sources.Runtime.Models.Characters;
@@ -23,6 +24,10 @@ namespace Sources.Runtime.Composite_Roots
             _presenter = GetComponent<PlayerPresenter>();
             _presenter.Init(new Player(transform.position, transform.rotation));
             _inputRouter = new InputRouter();
+        }
+
+        private void Start()
+        {
             _characterControl = new CharacterControl(_inputRouter,
                 (CommandableCharacter) _warriorPresenter.Model,
                 (CommandableCharacter) _enchanterPresenter.Model,

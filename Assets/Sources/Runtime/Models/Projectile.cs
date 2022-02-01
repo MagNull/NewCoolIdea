@@ -1,5 +1,4 @@
-﻿using Sources.Runtime.Models.Characters;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Sources.Runtime.Models
 {
@@ -16,7 +15,7 @@ namespace Sources.Runtime.Models
             _speed = speed;
         }
 
-        public override void OnCollision(Character character)
+        public override void OnCollision(Damageable character)
         {
             base.OnCollision(character);
             Destroy();

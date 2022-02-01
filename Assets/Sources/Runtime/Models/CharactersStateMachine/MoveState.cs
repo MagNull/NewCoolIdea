@@ -8,9 +8,9 @@ namespace Sources.Runtime.Models.CharactersStateMachine
     {
         private readonly NavMeshAgent _navMeshAgent;
 
-        public MoveState(NavMeshAgent navMeshAgent, Func<dynamic> getTarget, 
-            Transformable characterTransformable, float attackDistance, StateMachine stateMachine)
-            : base(getTarget, characterTransformable, attackDistance, stateMachine)
+        public MoveState(NavMeshAgent navMeshAgent, Func<dynamic> getTarget, Transformable characterTransformable,
+            Func<Weapon> getWeapon, StateMachine stateMachine) 
+            : base(getTarget, characterTransformable, getWeapon, stateMachine)
         {
             _navMeshAgent = navMeshAgent;
         }
@@ -18,6 +18,7 @@ namespace Sources.Runtime.Models.CharactersStateMachine
         public override void Enter()
         {
             _navMeshAgent.isStopped = false;
+            _attackDistance = _getWeapon.Invoke().MinAttackDistance;
         }
 
         public override void Exit()

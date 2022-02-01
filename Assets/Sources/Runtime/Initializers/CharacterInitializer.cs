@@ -1,4 +1,5 @@
 ﻿using Sources.External.QuickOutline.Scripts;
+using Sources.Runtime.Models;
 using Sources.Runtime.Models.Characters;
 using Sources.Runtime.Presenters;
 using UnityEngine;
@@ -31,16 +32,21 @@ namespace Sources.Runtime.Composite_Roots
         private CharacterPresenter _presenter;
         private Character _character;
 
-        private void Awake()
+        private void Start()
         {
             _presenter = GetComponent<CharacterPresenter>();
             
-            _character =  _isRange ? new RangeAttackCharacter(transform.position, transform.rotation, 
-                    _startHealth, _bank, _minAttackDistance, _maxAttackDistance, _projectilesFactory, _projectileOrigin)
-                : new Character(transform.position, transform.rotation, 
-                    _startHealth, _bank, _minAttackDistance, _maxAttackDistance);
+            Weapon weapon;
+            if (_isRange)
+                weapon = new RangeWeapon(1, _minAttackDistance, _maxAttackDistance,
+                    _projectilesFactory, _projectileOrigin);
+            else
+                weapon = new MeleeWeapon(1, _minAttackDistance, _maxAttackDistance,
+                    GetComponentInChildren<DamageDealerPresenter>().Model);
             
-            _character = new CommandableCharacter(_character, _bank, GetComponent<Outline>());
+            _character = new CommandableCharacter(transform.position, transform.rotation,
+                _startHealth, _bank, GetComponent<Outline>()).BindWeapon(weapon);
+            
             _presenter.Init(_character);
         }
     }

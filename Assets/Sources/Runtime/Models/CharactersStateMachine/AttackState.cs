@@ -5,16 +5,15 @@ namespace Sources.Runtime.Models.CharactersStateMachine
 {
     public class AttackState : State
     {
-        public AttackState( Func<dynamic> getTarget, 
-            Transformable characterTransformable, float attackDistance, StateMachine stateMachine) 
-            : base(getTarget, characterTransformable, attackDistance, stateMachine)
+        public AttackState(Func<dynamic> getTarget, Transformable characterTransformable, 
+            Func<Weapon> getWeapon, StateMachine stateMachine) 
+            : base(getTarget, characterTransformable, getWeapon, stateMachine)
         {
-            
         }
 
         public override void Enter()
         {
-            
+            _attackDistance = _getWeapon.Invoke().MaxAttackDistance;
         }
 
         public override void Exit()
