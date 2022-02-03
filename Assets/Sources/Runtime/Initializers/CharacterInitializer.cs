@@ -71,11 +71,12 @@ namespace Sources.Runtime.Composite_Roots
         {
             CharacterClass.WARRIOR => new Ability[]
             {
-                new WarriorSpinState(_character.GetTarget, _character, stateMachine, 2, weapon)
+                new WarriorSpinState(_character.GetTarget, _character, stateMachine, 2,2, weapon)
             },
             CharacterClass.RANGER => new Ability[]
             {
-                
+                new RangerMultishotState(_character.GetTarget, _character, stateMachine, 2, 
+                    _projectilesFactory, _projectileOrigin)
             },
             CharacterClass.ENCHANTER => new Ability[]
             {

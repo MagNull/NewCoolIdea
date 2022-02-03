@@ -45,7 +45,15 @@ namespace Sources.Runtime.Models.CharactersStateMachine
 
         public override void Update(float deltaTime)
         {
-            
+            dynamic target = _getTarget.Invoke();
+            if (target is Transformable targetTransformable)
+            {
+                _characterTransformable.LookAt(targetTransformable);
+            }
+            else if (target is Vector3 targetPoint)
+            {
+                _characterTransformable.LookAt(targetPoint);
+            }
         }
     }
 }

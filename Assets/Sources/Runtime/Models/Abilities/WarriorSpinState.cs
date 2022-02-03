@@ -11,8 +11,8 @@ namespace Sources.Runtime.Models.Abilities
         private MeleeWeapon _weapon;
 
         public WarriorSpinState(Func<dynamic> getTarget, Transformable characterTransformable, StateMachine stateMachine,
-            float duration, Weapon weapon) 
-            : base(getTarget, characterTransformable, stateMachine)
+            float coolDown, float duration, Weapon weapon) 
+            : base(getTarget, characterTransformable, stateMachine, coolDown)
         {
             _duration = duration;
             _weapon = weapon as MeleeWeapon;

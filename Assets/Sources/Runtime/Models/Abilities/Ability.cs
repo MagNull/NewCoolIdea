@@ -5,14 +5,15 @@ namespace Sources.Runtime.Models.Abilities
 {
     public abstract class Ability : State
     {
-        private float _coolDown = 1;
+        private float _coolDown;
         private float _coolDownTimer;
         public bool CanUse => _coolDownTimer <= 0;
         
-        protected Ability(Func<dynamic> getTarget, Transformable characterTransformable, StateMachine stateMachine) 
+        protected Ability(Func<dynamic> getTarget, Transformable characterTransformable, StateMachine stateMachine, 
+            float coolDown) 
             : base(getTarget, characterTransformable, stateMachine)
         {
-            
+            _coolDown = coolDown;
         }
 
         public override void Enter()

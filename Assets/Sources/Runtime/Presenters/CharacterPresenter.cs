@@ -18,6 +18,7 @@ namespace Sources.Runtime.Presenters
         private readonly int _idleTrigger = Animator.StringToHash("Idle");
         private readonly int _dieTrigger = Animator.StringToHash("Die");
         private readonly int _warriorSpinTrigger = Animator.StringToHash("Warrior Spin");
+        private readonly int _rangerMultishotTrigger = Animator.StringToHash("Ranger Multishot");
 
         public override void Init(Character model)
         {
@@ -66,12 +67,10 @@ namespace Sources.Runtime.Presenters
             if (target is Transformable targetTransformable)
             {
                 _navMeshAgent.SetDestination(targetTransformable.Position);
-                Model.LookAt(targetTransformable);
             }
             else if (target is Vector3 targetPoint)
             {
                 _navMeshAgent.SetDestination(targetPoint);
-                Model.LookAt(targetPoint);
             }
         }
 
@@ -101,6 +100,11 @@ namespace Sources.Runtime.Presenters
             {
                 _navMeshAgent.isStopped = false;
                 _animator.SetTrigger(_warriorSpinTrigger);
+            }
+            else if (newState is RangerMultishotState)
+            {
+                _navMeshAgent.isStopped = true;
+                _animator.SetTrigger(_rangerMultishotTrigger);
             }
         }
     }

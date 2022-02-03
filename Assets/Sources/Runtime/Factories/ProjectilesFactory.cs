@@ -9,6 +9,7 @@ namespace Sources.Runtime.Presenters
         
         protected override Presenter<DamageDealer> GetPrefab(DamageDealer model)
         {
+            model.Activate();
             return _testProjectilePrefab;
         }
     }

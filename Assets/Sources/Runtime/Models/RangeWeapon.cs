@@ -22,7 +22,6 @@ namespace Sources.Runtime.Models
             {
                 var projectile = new Projectile(_projectileOrigin.position,
                     Quaternion.identity, damageable, 20, _damage);
-                projectile.Activate();
                 _projectilesFactory.Create(projectile);
             }
         }
