@@ -1,12 +1,13 @@
-﻿using UnityEngine;
+﻿using Sources.Runtime.Models.CharactersStateMachine;
+using UnityEngine;
 
 namespace Sources.Runtime.Models.Characters
 {
     public class Enemy : AutoTargetCharacter
     {
         public Enemy(Vector3 position, Quaternion rotation, 
-            int healthValue, CharacterBank characterBank) 
-            : base(position, rotation, healthValue, characterBank)
+            int healthValue, CharacterBank characterBank, StateMachine stateMachine) 
+            : base(position, rotation, healthValue, characterBank, stateMachine)
         {
             
         }

@@ -77,9 +77,9 @@ namespace Sources.Runtime.Presenters
 
         private void OnStateChanged(State newState)
         {
-            _navMeshAgent.isStopped = true;
             if (newState is AttackState)
             {
+                _navMeshAgent.isStopped = true;
                 _animator.SetTrigger(_attackTrigger);
             }
             else if (newState is MoveState)
@@ -89,6 +89,7 @@ namespace Sources.Runtime.Presenters
             }
             else if (newState is IdleState)
             {
+                _navMeshAgent.isStopped = true;
                 _animator.SetTrigger(_idleTrigger);
             }
             else if (newState is DieState)

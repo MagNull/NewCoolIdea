@@ -58,7 +58,7 @@ namespace Sources.Runtime.Composite_Roots
             
             var stateMachine = new StateMachine();
             _character = new CommandableCharacter(transform.position, transform.rotation,
-                _startHealth, _bank,
+                _startHealth, _bank, stateMachine,
                 GetComponent<Outline>())
                 .BindWeapon(weapon);
             _character.BindAbilities(CreateAbilities(stateMachine, weapon));
@@ -71,7 +71,7 @@ namespace Sources.Runtime.Composite_Roots
         {
             CharacterClass.WARRIOR => new Ability[]
             {
-                new WarriorSpinState(_character.GetTarget, _character, stateMachine, 5, weapon)
+                new WarriorSpinState(_character.GetTarget, _character, stateMachine, 2, weapon)
             },
             CharacterClass.RANGER => new Ability[]
             {

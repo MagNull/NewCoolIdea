@@ -14,8 +14,8 @@ namespace Sources.Runtime.Models.Characters
         private CharacterControl _currentCommander;
         
         public CommandableCharacter(Vector3 position, Quaternion rotation, int healthValue, 
-            CharacterBank characterBank, Outline outline) 
-            : base(position, rotation, healthValue, characterBank)
+            CharacterBank characterBank, StateMachine stateMachine, Outline outline) 
+            : base(position, rotation, healthValue, characterBank, stateMachine)
         {
             Selected += () => outline.enabled = true;
             Deselected += () => outline.enabled = false;

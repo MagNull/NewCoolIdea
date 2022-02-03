@@ -1,5 +1,6 @@
 ﻿using System;
 using Sources.Runtime.Models.CharactersStateMachine;
+using UnityEngine;
 
 namespace Sources.Runtime.Models.Abilities
 {

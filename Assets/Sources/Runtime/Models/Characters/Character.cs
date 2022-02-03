@@ -21,12 +21,13 @@ namespace Sources.Runtime.Models.Characters
         private StateMachine _stateMachine;
         private Weapon _weapon;
         
-        public Character(Vector3 position, Quaternion rotation, int healthValue, CharacterBank characterBank) 
+        public Character(Vector3 position, Quaternion rotation, int healthValue, CharacterBank characterBank, 
+            StateMachine stateMachine) 
             : base(position, rotation, healthValue)
         {
             _characterBank = characterBank;
             
-            _stateMachine = new StateMachine();
+            _stateMachine = stateMachine;
         }
 
         public void AttackTarget()

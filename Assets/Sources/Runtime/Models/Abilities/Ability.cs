@@ -8,6 +8,7 @@ namespace Sources.Runtime.Models.Abilities
         private float _coolDown = 1;
         private float _coolDownTimer;
         public bool CanUse => _coolDownTimer <= 0;
+        
         protected Ability(Func<dynamic> getTarget, Transformable characterTransformable, StateMachine stateMachine) 
             : base(getTarget, characterTransformable, stateMachine)
         {
