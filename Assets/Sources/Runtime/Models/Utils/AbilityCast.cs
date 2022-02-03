@@ -18,28 +18,15 @@ namespace Sources.Runtime.Models
         public void OnAbilityUseTried(int abilityNumber)
         {
             var ability = _abilities[abilityNumber - 1];
-            if (ability.CanCast &&
-                !(_stateMachine.CurrentState is AbilityCastState))
-            {
-                _stateMachine.SwitchActiveAbility(_abilities[abilityNumber - 1]);
-                _stateMachine.ChangeState<AbilityCastState>();
-            }
-        }
-
-        public void OnAbilityUseTried()
-        {
-            if (_abilities[0].CanCast)
-            {
-                _stateMachine.SwitchActiveAbility(_abilities[0]);
-                _stateMachine.ChangeState<AbilityCastState>();
-            }
+            if(ability.CanUse)
+                _stateMachine.ChangeState(_abilities[abilityNumber - 1]);
         }
 
         public void Update(float deltaTime)
         {
             foreach (var ability in _abilities)
             {
-                ability.Update(deltaTime);
+                ability.CooldownTick(deltaTime);
             }
         }
     }

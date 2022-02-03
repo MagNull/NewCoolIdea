@@ -5,10 +5,14 @@ namespace Sources.Runtime.Models.CharactersStateMachine
 {
     public class AttackState : State
     {
+        private Func<Weapon> _getWeapon;
+        private float _attackDistance;
+        
         public AttackState(Func<dynamic> getTarget, Transformable characterTransformable, 
             Func<Weapon> getWeapon, StateMachine stateMachine) 
-            : base(getTarget, characterTransformable, getWeapon, stateMachine)
+            : base(getTarget, characterTransformable, stateMachine)
         {
+            _getWeapon = getWeapon;
         }
 
         public override void Enter()

@@ -5,15 +5,17 @@ namespace Sources.Runtime.Models.CharactersStateMachine
 {
     public class IdleState : State
     {
-        public IdleState(Func<dynamic> getTarget, Transformable characterTransformable, Func<Weapon> getWeapon, 
+        private float _attackDistance;
+        
+        public IdleState(Func<dynamic> getTarget, Transformable characterTransformable, float attackDistance, 
             StateMachine stateMachine) 
-            : base(getTarget, characterTransformable, getWeapon, stateMachine)
+            : base(getTarget, characterTransformable, stateMachine)
         {
+            _attackDistance = attackDistance;
         }
 
         public override void Enter()
         {
-            _attackDistance = _getWeapon.Invoke().MinAttackDistance;
 
         }
 

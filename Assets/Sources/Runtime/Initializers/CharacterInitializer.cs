@@ -1,6 +1,9 @@
-﻿using Sources.External.QuickOutline.Scripts;
+﻿using System;
+using Sources.External.QuickOutline.Scripts;
 using Sources.Runtime.Models;
+using Sources.Runtime.Models.Abilities;
 using Sources.Runtime.Models.Characters;
+using Sources.Runtime.Models.CharactersStateMachine;
 using Sources.Runtime.Presenters;
 using UnityEngine;
 using UnityEngine.AI;
@@ -29,8 +32,17 @@ namespace Sources.Runtime.Composite_Roots
         private float _maxAttackDistance = .5f;
         [SerializeField] 
         private int _startHealth = 5;
+        [SerializeField]
+        private CharacterClass _characterClass;
         private CharacterPresenter _presenter;
         private Character _character;
+
+        enum CharacterClass
+        {
+            WARRIOR,
+            RANGER,
+            ENCHANTER
+        }
 
         private void Start()
         {
@@ -44,10 +56,33 @@ namespace Sources.Runtime.Composite_Roots
                 weapon = new MeleeWeapon(1, _minAttackDistance, _maxAttackDistance,
                     GetComponentInChildren<DamageDealerPresenter>().Model);
             
+            var stateMachine = new StateMachine();
             _character = new CommandableCharacter(transform.position, transform.rotation,
-                _startHealth, _bank, GetComponent<Outline>()).BindWeapon(weapon);
+                _startHealth, _bank,
+                GetComponent<Outline>())
+                .BindWeapon(weapon);
+            _character.BindAbilities(CreateAbilities(stateMachine, weapon));
             
             _presenter.Init(_character);
         }
+
+        private Ability[] CreateAbilities(StateMachine stateMachine, Weapon weapon) => 
+            _characterClass switch
+        {
+            CharacterClass.WARRIOR => new Ability[]
+            {
+                new WarriorSpinState(_character.GetTarget, _character, stateMachine, 5, weapon)
+            },
+            CharacterClass.RANGER => new Ability[]
+            {
+                
+            },
+            CharacterClass.ENCHANTER => new Ability[]
+            {
+                
+            },
+            _ => new Ability[]{}
+        };
     }
+    
 }

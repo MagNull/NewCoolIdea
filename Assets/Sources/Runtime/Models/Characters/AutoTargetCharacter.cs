@@ -1,4 +1,6 @@
-﻿using Sources.Runtime.Models.FindTargetStrategies;
+﻿using Sources.Runtime.Models.Abilities;
+using Sources.Runtime.Models.CharactersStateMachine;
+using Sources.Runtime.Models.FindTargetStrategies;
 using UnityEngine;
 
 namespace Sources.Runtime.Models.Characters
@@ -7,7 +9,8 @@ namespace Sources.Runtime.Models.Characters
     {
         private readonly IFindTargetStrategy _findTargetStrategy;
 
-        public AutoTargetCharacter(Vector3 position, Quaternion rotation, int healthValue, CharacterBank characterBank) 
+        public AutoTargetCharacter(Vector3 position, Quaternion rotation, int healthValue,
+            CharacterBank characterBank) 
             : base(position, rotation, healthValue, characterBank)
         {
             _findTargetStrategy = new FindNearestStrategy();

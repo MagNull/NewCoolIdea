@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Sources.Runtime.Models.Abilities;
 using Sources.Runtime.Models.CharactersStateMachine;
+using Sources.Runtime.Presenters;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,22 +11,22 @@ namespace Sources.Runtime.Models.Characters
     [Serializable]
     public class Character : Damageable, IUpdatable, IStateful
     {
-        public virtual event Action<State> StateChanged;
+        public event Action<State> StateChanged;
 
         protected AbilityCast _abilityCast;
         protected IReadOnlyList<Damageable> _targets;
         protected readonly CharacterBank _characterBank;
-
-        private NavMeshAgent _navMeshAgent;
+        
         private dynamic _target;
         private StateMachine _stateMachine;
         private Weapon _weapon;
         
-
         public Character(Vector3 position, Quaternion rotation, int healthValue, CharacterBank characterBank) 
             : base(position, rotation, healthValue)
         {
             _characterBank = characterBank;
+            
+            _stateMachine = new StateMachine();
         }
 
         public void AttackTarget()
@@ -40,6 +41,12 @@ namespace Sources.Runtime.Models.Characters
             return this;
         }
 
+        public Character BindAbilities(Ability[] abilities)
+        {
+            _abilityCast = new AbilityCast(_stateMachine, abilities);
+            return this;
+        }
+
         public virtual void Update(float deltaTime)
         {
             _abilityCast.Update(deltaTime);
@@ -50,27 +57,17 @@ namespace Sources.Runtime.Models.Characters
         {
             base.Die();
             _stateMachine.ChangeState<DieState>();
-            _navMeshAgent.enabled = false;
         }
 
-        public virtual void Init(NavMeshAgent navMeshAgent)
+        public void Init()
         {
             DefineTeam();
-            
-            _navMeshAgent = navMeshAgent;
-            _navMeshAgent.updateRotation = false;
-            
-            _stateMachine = new StateMachine();
             var states = GetStates();
             _stateMachine.StateChanged += StateChanged;
             _stateMachine.Init(states, states[0]);
-
-            _abilityCast = new AbilityCast(_stateMachine, 
-                new []
-                {
-                    new Ability("Warrior Spin", 2, 2, true)
-                });
         }
+
+        public dynamic GetTarget() => _target;
 
         protected virtual void SetTarget(dynamic target)
         {
@@ -79,8 +76,6 @@ namespace Sources.Runtime.Models.Characters
                 return;
             _target = target;
         }
-
-        protected dynamic GetTarget() => _target;
 
         protected virtual void DefineTeam()
         {
@@ -93,15 +88,12 @@ namespace Sources.Runtime.Models.Characters
             Weapon GetWeapon() => _weapon;
             var states = new State[5];
             states[0] = new IdleState(GetTarget, 
-                this, GetWeapon, _stateMachine);
-            states[1] = new MoveState(_navMeshAgent, GetTarget, 
-                this, GetWeapon, _stateMachine);
+                this, _weapon.MinAttackDistance, _stateMachine);
+            states[1] = new MoveState(GetTarget, 
+                this, _weapon.MinAttackDistance, _stateMachine);
             states[2] = new AttackState(GetTarget, 
                 this, GetWeapon, _stateMachine);
-            states[3] = new DieState(GetTarget, 
-                this, GetWeapon, _stateMachine);
-            states[4] = new AbilityCastState(_navMeshAgent, GetTarget, 
-                this, GetWeapon, _stateMachine);
+            states[3] = new DieState(GetTarget, this, _stateMachine);
 
             return states;
         }

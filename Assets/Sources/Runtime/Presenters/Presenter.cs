@@ -52,7 +52,7 @@ namespace Sources.Runtime.Presenters
             Destroy(gameObject);
         }
 
-        private void Update() => _updatable?.Update(Time.deltaTime);
+        protected virtual void Update() => _updatable?.Update(Time.deltaTime);
 
         private void DestroyCompose()
         {

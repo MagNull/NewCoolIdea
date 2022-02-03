@@ -22,10 +22,18 @@ namespace Sources.Runtime.Models
 
         public void LookAt(object target)
         {
-            if(target is Transformable targetTransformable)
-                Rotation = Quaternion.LookRotation(targetTransformable.Position - Position);
-            else if(target is Vector3 targetVector)
-                Rotation = Quaternion.LookRotation(targetVector - Position);
+            Vector3 targetPosition = new Vector3();
+            if (target is Transformable targetTransformable)
+                targetPosition = targetTransformable.Position;
+            else if (target is Vector3 targetVector)
+                targetPosition = targetVector;
+            
+            targetPosition.y = Position.y;
+            var lookRotationVector = targetPosition - Position;
+            if(lookRotationVector == Vector3.zero)
+                return;
+            
+            Rotation = Quaternion.LookRotation(targetPosition - Position);
             Rotated?.Invoke();
         }
 
